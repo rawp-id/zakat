@@ -1,0 +1,23 @@
+[
+    {
+        "nama": "Ahmad Fauzi",
+        "jumlah": 500000,
+        "alamat": "Jl. Merdeka No. 10, Bandung",
+        "rincian": "Zakat mal untuk bantuan kebutuhan pokok",
+        "keterangan": "Diberikan pada tanggal 1 Ramadhan"
+    },
+    {
+        "nama": "Siti Aminah",
+        "jumlah": 750000,
+        "alamat": "Kp. Ciparay No. 3, Bogor",
+        "rincian": "Zakat fitrah untuk bantuan pendidikan",
+        "keterangan": "Diberikan pada akhir Ramadhan"
+    },
+    {
+        "nama": "Abdul Haris",
+        "jumlah": 1000000,
+        "alamat": "Jl. Cendana No. 5, Jakarta",
+        "rincian": "Zakat profesi untuk pembangunan masjid",
+        "keterangan": "Diberikan pada pertengahan tahun"
+    }
+]
