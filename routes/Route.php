@@ -7,7 +7,7 @@ class Route {
     public $action;
     public $method;
 
-    public function __construct($path, $action, $method = 'GET') {
+    public function __construct($path, $action, $method) {
         $this->path = $path;
         $this->action = $action;
         $this->method = $method;

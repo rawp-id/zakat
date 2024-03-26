@@ -14,19 +14,17 @@ class ZakatController
     {
         $this->ZakatService = new ZakatService();
     }
+
     public function index()
     {
         $data = $this->ZakatService->getZakat();
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'data' => $data]);
-        // return "hello";
     }
-    public function helo()
+
+    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
     {
-        $Data = $this->ZakatService->getZakat();
-        header('Content-Type: application/json');
-        echo "helo";
-        // return "hello";
+        $Data = $this->ZakatService->addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
     }
 }
 

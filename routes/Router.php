@@ -5,7 +5,7 @@ namespace Routes;
 class Router {
     private $routes = [];
 
-    public function addRoute($path, $action, $method = 'GET') {
+    public function addRoute($path, $action, $method) {
         $this->routes[] = new Route($path, $action, $method);
     }
 

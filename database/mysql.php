@@ -15,7 +15,7 @@ class Connection
 
     private function connect()
     {
-        $this->db = new mysqli("localhost", "root", "", "zakat");
+        $this->db = new mysqli("localhost", "root", "rawp14", "zakat");
 
         if (!$this->db) {
             echo $this->db->lastErrorMsg();

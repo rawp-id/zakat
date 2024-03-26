@@ -22,7 +22,7 @@ class ZakatRepository
     {
         $data = new SplDoublyLinkedList();
         $result = $this->db->getDb()->query("SELECT * FROM zakat;");
-        
+
         if ($result !== false) {
             while ($row = $result->fetch_assoc()) {
                 $zakat = new Zakat(
@@ -30,17 +30,17 @@ class ZakatRepository
                     $row['nama'],
                     $row['jumlah'],
                     $row['alamat'],
-                    ($row['rincian'] != null) ? $row['rincian'] : "-", 
+                    ($row['rincian'] != null) ? $row['rincian'] : "-",
                     ($row['keterangan'] != null) ? $row['keterangan'] : "-",
                     $row['kode_ms'],
                 );
                 $data->push($zakat);
             }
         }
-    
+
         return $data;
     }
-    
+
 
     public function getZakat()
     {
@@ -55,7 +55,12 @@ class ZakatRepository
         return $DataArr;
     }
 
-    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms){
-        $result = $this->db->getDb()->query("INSERT INTO ");
+    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+    {
+        $result = $this->db->getDb()->query("INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES ($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);");
+        if($result>0){
+            return true;
+        }
+        return false;
     }
 }

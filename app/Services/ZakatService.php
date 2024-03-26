@@ -19,5 +19,8 @@ class ZakatService
     {
         return $this->ZakatRepository->getZakat();
     }
+    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+    {
+        return $this->ZakatRepository->addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
+    }
 }
-
