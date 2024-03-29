@@ -22,7 +22,7 @@ class ZakatController
         echo json_encode(['success' => true, 'data' => $data]);
     }
 
-    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+    public function add($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
     {
         $Data = $this->ZakatService->addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
     }
