@@ -55,16 +55,5 @@ class UserRepository
         return $DataArr;
     }
 
-    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
-    {
-        $result = $this->db->getDb()->query("INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES ($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);");
-        if($result>0){
-            return true;
-        }
-        return false;
-    }
 }
 
-$data = new UserRepository();
-echo json_encode($data->getUser());
-header('Content-Type: application/json');

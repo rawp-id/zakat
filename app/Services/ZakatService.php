@@ -8,19 +8,27 @@ use App\Repositories\ZakatRepository;
 
 class ZakatService
 {
+
     protected $ZakatRepository;
 
-    function __construct()
+
+    public function __construct()
     {
         $this->ZakatRepository = new ZakatRepository();
     }
 
-    public function getZakat()
+
+    public function getZakat(): array
     {
-        return $this->ZakatRepository->getZakat();
+        return $this->ZakatRepository->get();
     }
-    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+
+    public function addZakat($id, string $nama, $jumlah, string $alamat, ?string $rincian, ?string $keterangan, string $kode_ms): bool
     {
-        return $this->ZakatRepository->addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
+        try {
+            return $this->ZakatRepository->add($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }

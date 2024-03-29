@@ -42,7 +42,7 @@ class ZakatRepository
     }
 
 
-    public function getZakat()
+    public function get()
     {
         $linkedList = $this->fetchToLinkedList();
         $DataArr = [];
@@ -55,12 +55,48 @@ class ZakatRepository
         return $DataArr;
     }
 
-    public function addZakat($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+    public function add($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
     {
-        $result = $this->db->getDb()->query("INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES ($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);");
-        if($result>0){
-            return true;
-        }
-        return false;
+        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES (:id, :nama, :jumlah, :alamat, :rincian, :keterangan, :kode_ms);";
+        $stmt = $this->db->getDb()->prepare($sql);
+        $result = $stmt->execute([
+            ':id' => $id,
+            ':nama' => $nama,
+            ':jumlah' => $jumlah,
+            ':alamat' => $alamat,
+            ':rincian' => $rincian,
+            ':keterangan' => $keterangan,
+            ':kode_ms' => $kode_ms
+        ]);
+
+        return $result;
+    }
+
+    public function update($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+    {
+        $sql = "UPDATE `zakat` SET `nama`=:nama, `jumlah`=:jumlah, `alamat`=:alamat, `rincian`=:rincian, `keterangan`=:keterangan, `kode_ms`=:kode_ms WHERE `id`=:id;";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $result = $stmt->execute([
+            ':id' => $id,
+            ':nama' => $nama,
+            ':jumlah' => $jumlah,
+            ':alamat' => $alamat,
+            ':rincian' => $rincian,
+            ':keterangan' => $keterangan,
+            ':kode_ms' => $kode_ms
+        ]);
+
+        return $result;
+    }
+
+    public function delete($id)
+    {
+        $sql = "DELETE FROM `zakat` WHERE `id` = :id;";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $result = $stmt->execute([':id' => $id]);
+
+        return $result;
     }
 }
