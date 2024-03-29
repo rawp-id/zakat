@@ -55,48 +55,47 @@ class ZakatRepository
         return $DataArr;
     }
 
-    public function add($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+    public function add($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms): bool
     {
-        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES (:id, :nama, :jumlah, :alamat, :rincian, :keterangan, :kode_ms);";
+        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES (?, ?, ?, ?, ?, ?, ?);";
         $stmt = $this->db->getDb()->prepare($sql);
-        $result = $stmt->execute([
-            ':id' => $id,
-            ':nama' => $nama,
-            ':jumlah' => $jumlah,
-            ':alamat' => $alamat,
-            ':rincian' => $rincian,
-            ':keterangan' => $keterangan,
-            ':kode_ms' => $kode_ms
-        ]);
 
-        return $result;
+        $stmt->bind_param("isissss", $id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
     }
 
-    public function update($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms)
+
+    public function update($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms): bool
     {
-        $sql = "UPDATE `zakat` SET `nama`=:nama, `jumlah`=:jumlah, `alamat`=:alamat, `rincian`=:rincian, `keterangan`=:keterangan, `kode_ms`=:kode_ms WHERE `id`=:id;";
+        $sql = "UPDATE `zakat` SET `nama`=?, `jumlah`=?, `alamat`=?, `rincian`=?, `keterangan`=?, `kode_ms`=? WHERE `id`=?;";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $result = $stmt->execute([
-            ':id' => $id,
-            ':nama' => $nama,
-            ':jumlah' => $jumlah,
-            ':alamat' => $alamat,
-            ':rincian' => $rincian,
-            ':keterangan' => $keterangan,
-            ':kode_ms' => $kode_ms
-        ]);
+        $stmt->bind_param("sissssi", $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms, $id);
 
-        return $result;
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
     }
 
-    public function delete($id)
+
+    public function delete($id): bool
     {
-        $sql = "DELETE FROM `zakat` WHERE `id` = :id;";
+        $sql = "DELETE FROM `zakat` WHERE `id` = ?;";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $result = $stmt->execute([':id' => $id]);
+        $stmt->bind_param("i", $id);
 
-        return $result;
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
     }
 }
