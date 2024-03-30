@@ -5,21 +5,32 @@ require_once __DIR__ . '/../../../libs/php-jwt/src/Key.php';
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-function authenticate()
-{
-    // $headers = apache_request_headers();
-    // $token = $headers['Authorization'] ?? '';
-    $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+function authenticate() {
+    // Coba mendapatkan token dari header Authorization
+    $authHeader = isset($_SERVER['HTTP_AUTHORIZATION']) ? $_SERVER['HTTP_AUTHORIZATION'] : (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : '');
+
+    if (!$authHeader) {
+        // Untuk server atau konfigurasi yang tidak menyertakan header Authorization di $_SERVER secara default
+        foreach (getallheaders() as $name => $value) {
+            if (strcasecmp($name, 'Authorization') == 0) {
+                $authHeader = $value;
+                break;
+            }
+        }
+    }
 
     if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-        $token = $matches[1]; // Ini hanya token tanpa 'Bearer '
-        echo $token;
+        $token = $matches[1];
+
         try {
-            $decoded = JWT::decode($token, new Key('R4wP_R4nD0m', 'HS256'));
+            JWT::decode($token, new Key('R4wP_R4nD0m', 'HS256'));
             return true;
         } catch (\Exception $e) {
-            // echo $e;
+            // Log error atau handle sesuai kebutuhan
             return false;
         }
     }
+
+    // Jika tidak ada token atau format salah
+    return false;
 }

@@ -73,3 +73,4 @@ class ZakatController
 // $data = new ZakatController();
 // echo $data->index();
 // header('Content-Type: application/json');
+// header('Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vemFrYXQudGVzdCIsImF1ZCI6Imh0dHA6Ly96YWthdC50ZXN0IiwiaWF0IjoxNzExODE2MjYxLCJleHAiOjE3MTE4MTk4NjEsImRhdGEiOnsiaWQiOiIxIiwiZW1haWwiOiJhZG1pbkBhZG1pbiJ9fQ.vkPNVGgjEQZ4cWJfJItMcOe3mKyCu_iu5X4dU2LObJ0');
