@@ -4,7 +4,7 @@ namespace App\Model;
 
 class User
 {
-    protected int $id;
+    protected String $id;
     protected String $nama;
     protected String $email;
     protected String $password;
@@ -23,11 +23,11 @@ class User
         $this->kode_ms = $kode_ms;
     }
 
-    public function getId(): int
+    public function getId(): String
     {
         return $this->id;
     }
-    public function setId(int $id): self
+    public function setId(String $id): self
     {
         $this->id = $id;
         return $this;

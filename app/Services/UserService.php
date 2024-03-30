@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-require_once __DIR__ . '/../Repositories/UserRepository.php';
+require_once __DIR__ . '/../repositories/UserRepository.php';
 
 use App\Repositories\UserRepository;
 

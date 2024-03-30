@@ -4,7 +4,7 @@ namespace App\Model;
 
 class Zakat
 {
-    private int $id;
+    private String $id;
     private string $nama;
     private int $jumlah;
     private string $alamat;
@@ -25,11 +25,11 @@ class Zakat
 
 
 
-    public function getId(): int
+    public function getId(): String
     {
         return $this->id;
     }
-    public function setId(int $id): self
+    public function setId(String $id): self
     {
         $this->id = $id;
         return $this;

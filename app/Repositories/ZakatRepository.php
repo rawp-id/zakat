@@ -3,10 +3,12 @@
 namespace App\Repositories;
 
 require_once __DIR__ . '/../../database/mysql.php';
-require_once __DIR__ . '/../Model/Zakat.php';
+require_once __DIR__ . '/../models/Zakat.php';
+require_once __DIR__ . '/../utils/uuid.php';
 
 use Database\Connection;
 use App\Model\Zakat;
+use App\Utils\Uuid;
 use SplDoublyLinkedList;
 
 class ZakatRepository
@@ -41,6 +43,29 @@ class ZakatRepository
         return $data;
     }
 
+    // public function get()
+    // {
+    //     $data = [];
+    //     $result = $this->db->getDb()->query("SELECT * FROM zakat;");
+
+    //     if ($result !== false) {
+    //         while ($row = $result->fetch_assoc()) {
+    //             $zakat = new Zakat(
+    //                 $row['id'],
+    //                 $row['nama'],
+    //                 $row['jumlah'],
+    //                 $row['alamat'],
+    //                 ($row['rincian'] != null) ? $row['rincian'] : "-",
+    //                 ($row['keterangan'] != null) ? $row['keterangan'] : "-",
+    //                 $row['kode_ms'],
+    //             );
+    //             $data[]=$zakat->toArray();;
+    //         }
+    //     }
+
+    //     return $data;
+    // }
+
 
     public function get()
     {
@@ -55,20 +80,19 @@ class ZakatRepository
         return $DataArr;
     }
 
-    public function add($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms): bool
+    public function add($nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms): bool
     {
-        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES (UUID(), ?, ?, ?, ?, ?, ?);";
         $stmt = $this->db->getDb()->prepare($sql);
-
-        $stmt->bind_param("isissss", $id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
-
+    
+        $stmt->bind_param("sissss", $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
+    
         $result = $stmt->execute();
-
+    
         $stmt->close();
-
+    
         return $result > 0;
     }
-
 
     public function update($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms): bool
     {
