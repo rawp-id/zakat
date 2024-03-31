@@ -3,8 +3,7 @@
 namespace App\Repositories;
 
 require_once __DIR__ . '/../../database/mysql.php';
-require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/../utils/uuid.php';
+require_once __DIR__ . '/../Models/User.php';
 
 use Database\Connection;
 use App\Model\User;
@@ -57,7 +56,8 @@ class UserRepository
         return $DataArr;
     }
 
-    public function findUserByEmail($email) {
+    public function findUserByEmail($email)
+    {
         $query = "SELECT * FROM user WHERE email = ?;";
         $stmt = $this->db->getDb()->prepare($query);
 
@@ -83,18 +83,29 @@ class UserRepository
         return null;
     }
 
-
-        public function add($nama, $email, $password, $role, $kode_ms): bool
+    function isValidPassword($password)
     {
-        $sql = "INSERT INTO `user` (`id`, `nama`, `email`, `password`, `role`,  `kode_ms`) VALUES (UUID(), ?, ?, ?, ?, ?);";
+        return preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/', $password);
+    }
+
+    function containsDisallowedCharacters($input)
+    {
+        return strpbrk($input, "\"'`") !== false;
+    }
+
+
+
+    public function add($nama, $email, $password, $k_verif, $role, $kode_ms): bool
+    {
+        $sql = "INSERT INTO `user` (`id`, `nama`, `email`, `password`, `kode_verifikasi`, `role`, `kode_ms`) VALUES (UUID(), ?, ?, ?, ?, ?, ?);";
         $stmt = $this->db->getDb()->prepare($sql);
-    
-        $stmt->bind_param("sssss", $nama, $email, $password, $role, $kode_ms);
-    
+
+        $stmt->bind_param("ssssss", $nama, $email, $password, $k_verif, $role, $kode_ms);
+
         $result = $stmt->execute();
-    
+
         $stmt->close();
-    
+
         return $result > 0;
     }
 }

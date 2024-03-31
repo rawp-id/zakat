@@ -2,8 +2,8 @@
 
 namespace App\Http\Controller;
 
-require_once __DIR__ . '/../../services/ZakatService.php';
-require_once __DIR__ . '/../../http/Middleware/AuthMidleware.php';
+require_once __DIR__ . '/../../Services/ZakatService.php';
+require_once __DIR__ . '/../../Http/Middleware/AuthMidleware.php';
 
 use App\Services\ZakatService;
 

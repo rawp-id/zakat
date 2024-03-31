@@ -3,8 +3,7 @@
 namespace App\Repositories;
 
 require_once __DIR__ . '/../../database/mysql.php';
-require_once __DIR__ . '/../models/Zakat.php';
-require_once __DIR__ . '/../utils/uuid.php';
+require_once __DIR__ . '/../Models/Zakat.php';
 
 use Database\Connection;
 use App\Model\Zakat;

@@ -2,7 +2,7 @@
 namespace App\Http\Controller;
 
 require_once __DIR__ . '/../../../Services/AuthService.php';
-require_once __DIR__ . '/../../../utils/ResponsHandler.php';
+require_once __DIR__ . '/../../../Utils/ResponsHandler.php';
 
 use App\Services\AuthService;
 use App\Utils\ResponseHandler;
