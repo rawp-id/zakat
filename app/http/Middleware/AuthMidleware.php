@@ -23,7 +23,7 @@ function authenticate() {
         $token = $matches[1];
 
         try {
-            JWT::decode($token, new Key('R4wP_R4nD0m', 'HS256'));
+            JWT::decode($token, new Key('123', 'HS256'));
             return true;
         } catch (\Exception $e) {
             // Log error atau handle sesuai kebutuhan

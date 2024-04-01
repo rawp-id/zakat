@@ -15,6 +15,7 @@ use PHPMailer\PHPMailer\Exception;
 
 use App\Repositories\UserRepository;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthService
 {
@@ -42,10 +43,20 @@ class AuthService
                 ]
             ];
 
-            $jwt = JWT::encode($payload, 'R4wP_R4nD0m', 'HS256');
+            $jwt = JWT::encode($payload, '123', 'HS256');
             return $jwt;
         } else {
             return null;
+        }
+    }
+    
+    public function verifyJWT($token)
+    {
+        try {
+            $decoded = JWT::decode($token, new Key('123', 'HS256'));
+            return $decoded;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 
