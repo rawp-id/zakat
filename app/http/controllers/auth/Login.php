@@ -1,11 +1,11 @@
 <?php
-namespace App\Http\Controller;
+namespace App\Http\Controller\Auth;
 
 require_once __DIR__ . '/../../../Services/AuthService.php';
-require_once __DIR__ . '/../../../Utils/ResponsHandler.php';
+require_once __DIR__ . '/../../../Utils/Response.php';
 
 use App\Services\AuthService;
-use App\Utils\ResponseHandler;
+use App\Utils\Response;
 
 class LoginController
 {
@@ -35,11 +35,11 @@ class LoginController
 
         if ($jwt) {
             header('Content-Type: application/json');
-            echo ResponseHandler::success(['token' => $jwt]);
+            echo Response::success(['token' => $jwt]);
         } else {
             header('HTTP/1.1 400 Bad Request');
             header('Content-Type: application/json');
-            echo ResponseHandler::error("Login failed.");
+            echo Response::error("Login failed.");
         }
     }
 }

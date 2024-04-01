@@ -17,4 +17,6 @@ $router->addRoute('/api/login', 'LoginController@login', 'POST');
 
 $router->addRoute('/api/user', 'UserController@index', 'GET');
 
+$router->addRoute('/', '', 'GET', '/../views/layout/index.html');
+
 return $router;

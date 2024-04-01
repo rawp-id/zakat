@@ -2,12 +2,12 @@
 namespace App\Http\Controller;
 
 require_once __DIR__ . '/../../../Services/AuthService.php';
-require_once __DIR__ . '/../../../Utils/ResponseHandler.php';
+require_once __DIR__ . '/../../../Utils/Response.php';
 require_once __DIR__ . '/../../../Services/UserService.php';
 
 use App\Services\AuthService;
 use App\Services\UserService;
-use App\Utils\ResponseHandler;
+use App\Utils\Response;
 
 class RegisterController
 {
@@ -44,11 +44,11 @@ class RegisterController
         if (isset($result['success'])) {
             $this->authService->sendVerificationEmail($email, $k_verif);
             header('Content-Type: application/json');
-            echo ResponseHandler::success(['message' => 'User registered successfully. Verification email sent.']);
+            echo Response::success(['message' => 'User registered successfully. Verification email sent.']);
         } else {
             header('HTTP/1.1 400 Bad Request');
             header('Content-Type: application/json');
-            echo ResponseHandler::error($result['error'] ?? 'Registration failed.');
+            echo Response::error($result['error'] ?? 'Registration failed.');
         }
     }
 }
