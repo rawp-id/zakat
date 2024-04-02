@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-require_once __DIR__ . '/../Repositories/ZakatRepository.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Repositories\ZakatRepository;
 

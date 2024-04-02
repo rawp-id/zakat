@@ -2,12 +2,10 @@
 
 namespace App\Repositories;
 
-require_once __DIR__ . '/../../database/mysql.php';
-require_once __DIR__ . '/../Models/Zakat.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Database\Connection;
-use App\Model\Zakat;
-use App\Utils\Uuid;
+use App\Models\Zakat;
 use SplDoublyLinkedList;
 
 class ZakatRepository

@@ -2,12 +2,10 @@
 
 namespace App\Repositories;
 
-require_once __DIR__ . '/../../database/mysql.php';
-require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Database\Connection;
-use App\Model\User;
-use App\Utils\Uuid;
+use App\Models\User;
 use SplDoublyLinkedList;
 
 class UserRepository
@@ -30,10 +28,12 @@ class UserRepository
                     $row['id'],
                     $row['nama'],
                     $row['email'],
-                    $row['password'],
+                    $row['password'] != null ? $row['password'] : "-",
                     ($row['verifikasi'] != null) ? $row['verifikasi'] : "-",
                     $row['role'],
-                    $row['kode_ms'],
+                    $row['kode_ms'] != null ? $row['kode_ms'] : "",
+                    $row['google_id'] != null ? $row['google_id'] : "-",
+                    $row['kode_verif'],
                 );
                 $data->push($user);
             }
@@ -41,7 +41,6 @@ class UserRepository
 
         return $data;
     }
-
 
     public function getUser()
     {
@@ -70,22 +69,23 @@ class UserRepository
                     $row['id'],
                     $row['nama'],
                     $row['email'],
-                    $row['password'],
+                    $row['password'] != null ? $row['password'] : "-",
                     ($row['verifikasi'] != null) ? $row['verifikasi'] : "-",
                     $row['role'],
-                    $row['kode_ms']
+                    $row['kode_ms'] != null ? $row['kode_ms'] : "",
+                    $row['google_id'] != null ? $row['google_id'] : "",
+                    $row['kode_verif'],
                 );
                 return $user->toArray();
             }
             $stmt->close();
         }
-
         return null;
     }
 
     function isValidPassword($password)
     {
-        return preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/', $password);
+        return preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/', $password);
     }
 
     function containsDisallowedCharacters($input)
@@ -93,20 +93,32 @@ class UserRepository
         return strpbrk($input, "\"'`") !== false;
     }
 
-
-
-    public function add($nama, $email, $password, $k_verif, $role, $kode_ms): bool
+    public function add($nama, $email, $password, $k_verif, $role): bool
     {
-        $sql = "INSERT INTO `user` (`id`, `nama`, `email`, `password`, `kode_verifikasi`, `role`, `kode_ms`) VALUES (UUID(), ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO `user` (`id`, `nama`, `email`, `password`, `kode_verif`, `role`) VALUES (UUID(), ?, ?, ?, ?, ?);";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $stmt->bind_param("ssssss", $nama, $email, $password, $k_verif, $role, $kode_ms);
+        $stmt->bind_param("ssssi", $nama, $email, $password, $k_verif, $role);
 
         $result = $stmt->execute();
 
         $stmt->close();
 
-        return $result > 0;
+        return $result;
+    }
+
+    public function add_google($google_id, $nama, $email, $k_verif, $role, $img_url): bool
+    {
+        $sql = "INSERT INTO `user` (`id`, `google_id`, `nama`, `email`, `kode_verif`, `role`, `picture_url`) VALUES (UUID(), ?, ?, ?, ?, ?, ?);";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $stmt->bind_param("ssssis", $google_id, $nama, $email, $k_verif, $role, $img_url);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result;
     }
 }
 

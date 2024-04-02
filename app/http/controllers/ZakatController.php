@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controller;
+namespace App\Http\Controllers;
 
-require_once __DIR__ . '/../../Services/ZakatService.php';
-require_once __DIR__ . '/../../Http/Middleware/AuthMidleware.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Services\ZakatService;
+use App\Http\Middleware\Auth;
 
 class ZakatController
 {
@@ -18,7 +18,7 @@ class ZakatController
 
     public function index()
     {
-        if (!authenticate()) {
+        if (!Auth::authenticate()) {
             header('HTTP/1.1 401 Unauthorized');
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Unauthorized']);

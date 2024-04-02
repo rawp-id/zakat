@@ -1,5 +1,6 @@
 RewriteEngine On
-RewriteBase /
+# Jika file atau direktori tidak ditemukan
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+# Terapkan rewrite ke index.php, sertakan path asli sebagai parameter jika diperlukan
+RewriteRule ^(.*)$ index.php/$1 [QSA,L]

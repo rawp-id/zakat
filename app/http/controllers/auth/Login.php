@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controller\Auth;
+namespace App\Http\Controllers\Auth;
 
 require_once __DIR__ . '/../../../Services/AuthService.php';
 require_once __DIR__ . '/../../../Utils/Response.php';

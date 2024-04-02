@@ -2,16 +2,7 @@
 
 namespace App\Services;
 
-require_once __DIR__ . '/../Repositories/UserRepository.php';
-require_once __DIR__ . '/../../libs/php-jwt/src/JWT.php';
-require_once __DIR__ . '/../../libs/php-jwt/src/Key.php';
-require_once __DIR__ . '/../../libs/phpmailer/src/PHPMailer.php';
-require_once __DIR__ . '/../../libs/phpmailer/src/SMTP.php';
-require_once __DIR__ . '/../../libs/phpmailer/src/Exception.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Repositories\UserRepository;
 use Firebase\JWT\JWT;
@@ -29,7 +20,7 @@ class AuthService
     public function authenticate($email, $password)
     {
         $user = $this->userRepository->findUserByEmail($email);
-        if ($user !== null && $password === $user['password']) {
+        if ($user !== null && ($user['password']!=""||$user['password']!=null) && $password === $user['password']) {
             $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
 
             $payload = [
@@ -49,7 +40,7 @@ class AuthService
             return null;
         }
     }
-    
+
     public function verifyJWT($token)
     {
         try {
@@ -57,34 +48,6 @@ class AuthService
             return $decoded;
         } catch (\Exception $e) {
             return false;
-        }
-    }
-
-    public function sendVerificationEmail($email, $verificationCode)
-    {
-        $mail = new PHPMailer(true);
-
-        try {
-            //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
-            $mail->isSMTP();
-            $mail->Host = 'sandbox.smtp.mailtrap.io';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'dffb502387dfa3';
-            $mail->Password = 'f0d0aa80ffdf9b';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 2525;
-
-            $mail->setFrom('noreply@example.com', 'Mailer');
-            $mail->addAddress($email);
-
-            $mail->isHTML(true);
-            $mail->Subject = 'Verifikasi Email Anda';
-            $mail->Body    = 'Silakan klik link ini untuk verifikasi akun Anda: <a href="http://yourdomain.com/verify.php?code=' . $verificationCode . '">Verifikasi</a>';
-
-            $mail->send();
-            return 'Pesan telah terkirim';
-        } catch (Exception $e) {
-            return "Pesan tidak dapat dikirim. Mailer Error: {$mail->ErrorInfo}";
         }
     }
 }

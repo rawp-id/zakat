@@ -18,11 +18,28 @@ class Router
             $this->routes[] = new Route($path, $action, $method);
         }
     }
+    private function normalizeRequestUri($requestUri)
+    {
+        $scriptName = $_SERVER['SCRIPT_NAME']; // e.g., /zakat/index.php
+        $basePath = dirname($scriptName); // e.g., /zakat
+
+        // Hapus basePath dari requestUri jika aplikasi dijalankan dari subdirektori
+        if ($basePath !== '/' && strpos($requestUri, $basePath) === 0) {
+            $requestUri = substr($requestUri, strlen($basePath));
+        }
+
+        return $requestUri;
+    }
 
     public function run()
     {
-        $requestUri = $_SERVER['REQUEST_URI'];
+        $uri = $_SERVER['REQUEST_URI'];
         $requestMethod = $_SERVER['REQUEST_METHOD'];
+    
+        $uriParts = explode('?', $uri, 2);
+        $requestUri = $uriParts[0];
+    
+        $requestUri = $this->normalizeRequestUri($requestUri);
 
         if (array_key_exists($requestUri, $this->views)) {
             $viewPath = __DIR__ . '/../views/' . $this->views[$requestUri];
@@ -43,7 +60,7 @@ class Router
         foreach ($this->routes as $route) {
             if ($route->path === $requestUri && $route->method === $requestMethod) {
                 $action = explode('@', $route->action);
-                $controllerName = "\\App\\Http\\Controller\\" . $action[0];
+                $controllerName = "\\App\\Http\\Controllers\\" . $action[0];
                 $methodName = $action[1];
 
                 if (class_exists($controllerName) && method_exists($controllerName, $methodName)) {
@@ -57,7 +74,7 @@ class Router
         foreach ($this->routes as $route) {
             if ($route->path === $requestUri && $route->method === $requestMethod) {
                 $action = explode('@', $route->action);
-                $controllerName = "\\App\\Http\\Controller\\Auth\\" . $action[0];
+                $controllerName = "\\App\\Http\\Controllers\\Auth\\" . $action[0];
                 $methodName = $action[1];
 
                 if (class_exists($controllerName) && method_exists($controllerName, $methodName)) {

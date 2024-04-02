@@ -1,0 +1,20 @@
+{
+    "name": "lenovo/zakat",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\": "database/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rifky Aryo",
+            "email": "110043806+rawp-id@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^6.10",
+        "phpmailer/phpmailer": "^6.9",
+        "google/apiclient": "^2.15"
+    }
+}

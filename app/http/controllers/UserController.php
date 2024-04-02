@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controller;
+namespace App\Http\Controllers;
 
-require_once __DIR__ . '/../../Services/UserService.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use App\Services\UserService;
 

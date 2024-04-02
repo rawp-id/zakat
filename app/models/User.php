@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Models;
 
 class User
 {
@@ -11,8 +11,10 @@ class User
     protected String $verifikasi;
     protected String $role;
     protected String $kode_ms;
+    protected String $google_id;
+    protected String $kode_verif;
 
-    public function __construct($id, $nama, $email, $password, $verifikasi, $role, $kode_ms)
+    public function __construct($id, $nama, $email, $password, $verifikasi, $role, $kode_ms, $google_id, $kode_verif)
     {
         $this->id = $id;
         $this->nama = $nama;
@@ -21,6 +23,8 @@ class User
         $this->verifikasi = $verifikasi;
         $this->role = $role;
         $this->kode_ms = $kode_ms;
+        $this->google_id = $google_id;
+        $this->kode_verif = $kode_verif;
     }
 
     public function getId(): String
@@ -93,13 +97,36 @@ class User
         return $this;
     }
 
-    public function toArray(){
+    public function getGoogleId(): String
+    {
+        return $this->google_id;
+    }
+    public function setGoogleId(String $google_id): self
+    {
+        $this->google_id = $google_id;
+        return $this;
+    }
+
+    public function getKodeVerif(): String
+    {
+        return $this->kode_verif;
+    }
+    public function setKodeVerif(String $kode_verif): self
+    {
+        $this->kode_verif = $kode_verif;
+        return $this;
+    }
+
+    public function toArray()
+    {
         return [
             'id' => $this->id,
+            'google_id' => $this->google_id,
             'nama' => $this->nama,
             'email' => $this->email,
             'password' => $this->password,
             'verifikasi' => $this->verifikasi,
+            'kode_verif' => $this->kode_verif,
             'role' => $this->role,
             'kode_ms' => $this->kode_ms,
         ];
