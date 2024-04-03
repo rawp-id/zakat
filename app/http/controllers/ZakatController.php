@@ -18,12 +18,12 @@ class ZakatController
 
     public function index()
     {
-        if (!Auth::authenticate()) {
-            header('HTTP/1.1 401 Unauthorized');
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-            exit;
-        }
+        // if (!Auth::authenticate()) {
+        //     header('HTTP/1.1 401 Unauthorized');
+        //     header('Content-Type: application/json');
+        //     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+        //     exit;
+        // }
 
         $data = $this->ZakatService->getZakat();
         header('Content-Type: application/json');

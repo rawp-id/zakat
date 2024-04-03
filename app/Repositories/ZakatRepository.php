@@ -79,7 +79,7 @@ class ZakatRepository
 
     public function add($nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms): bool
     {
-        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`) VALUES (UUID(), ?, ?, ?, ?, ?, ?);";
+        $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`, `tanggal`) VALUES (UUID(), ?, ?, ?, ?, ?, ?, NOW());";
         $stmt = $this->db->getDb()->prepare($sql);
     
         $stmt->bind_param("sissss", $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
