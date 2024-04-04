@@ -32,6 +32,7 @@ class ZakatRepository
                     ($row['rincian'] != null) ? $row['rincian'] : "-",
                     ($row['keterangan'] != null) ? $row['keterangan'] : "-",
                     $row['kode_ms'],
+                    $row['status'],
                 );
                 $data->push($zakat);
             }
@@ -81,13 +82,13 @@ class ZakatRepository
     {
         $sql = "INSERT INTO `zakat` (`id`, `nama`, `jumlah`, `alamat`, `rincian`, `keterangan`, `kode_ms`, `tanggal`) VALUES (UUID(), ?, ?, ?, ?, ?, ?, NOW());";
         $stmt = $this->db->getDb()->prepare($sql);
-    
+
         $stmt->bind_param("sissss", $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
-    
+
         $result = $stmt->execute();
-    
+
         $stmt->close();
-    
+
         return $result > 0;
     }
 
@@ -96,7 +97,7 @@ class ZakatRepository
         $sql = "UPDATE `zakat` SET `nama`=?, `jumlah`=?, `alamat`=?, `rincian`=?, `keterangan`=?, `kode_ms`=? WHERE `id`=?;";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $stmt->bind_param("sissssi", $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms, $id);
+        $stmt->bind_param("sisssss", $nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms, $id);
 
         $result = $stmt->execute();
 
@@ -111,7 +112,21 @@ class ZakatRepository
         $sql = "DELETE FROM `zakat` WHERE `id` = ?;";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("s", $id);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
+    }
+
+    public function acc_zakat($id)
+    {
+        $sql = "UPDATE `zakat` SET `status`= 1 WHERE `id`=?;";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $stmt->bind_param("s", $id);
 
         $result = $stmt->execute();
 

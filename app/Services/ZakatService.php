@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
 
 use App\Repositories\ZakatRepository;
 
@@ -27,6 +26,14 @@ class ZakatService
     {
         try {
             return $this->ZakatRepository->add($nama, $jumlah, $alamat, $rincian, $keterangan, $kode_ms);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function acc_zakat($id){
+        try {
+            return $this->ZakatRepository->acc_zakat($id);
         } catch (\Exception $e) {
             throw $e;
         }

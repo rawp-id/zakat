@@ -41,16 +41,16 @@ class ZakatController
             $nama = $decoded['nama'] ?? null;
             $jumlah = $decoded['jumlah'] ?? null;
             $alamat = $decoded['alamat'] ?? null;
-            $rincian = $decoded['rincian'] ?? null;
-            $keterangan = $decoded['keterangan'] ?? null;
-            $kode_ms = $decoded['kode_ms'] ?? null;
+            $rincian = isset($decoded['rincian'])?$decoded['rincian']:"-";
+            $keterangan = isset($decoded['keterangan'])?$decoded['keterangan']:"-";
+            $kode_ms = "dm";
         } else {
             $nama = $_POST['nama'] ?? null;
             $jumlah = $_POST['jumlah'] ?? null;
             $alamat = $_POST['alamat'] ?? null;
-            $rincian = $_POST['rincian'] ?? null;
-            $keterangan = $_POST['keterangan'] ?? null;
-            $kode_ms = $_POST['kode_ms'] ?? null;
+            $rincian = isset($_POST['rincian']) ? explode(",",$_POST['rincian']) : "-";
+            $keterangan = isset($_POST['keterangan']) ? json_encode($_POST['keterangan']) : "-";
+            $kode_ms = "dm";
         }
 
         if ($nama && $jumlah && $alamat && $rincian && $keterangan && $kode_ms) {
@@ -61,6 +61,30 @@ class ZakatController
             header('HTTP/1.1 400 Bad Request');
             header('Content-Type: application/json');
             echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+        }
+    }
+
+    public function accZakat()
+    {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            $id = $decoded['id'] ?? null;
+        } else {
+            $id = $_POST['id'] ?? null;
+        }
+
+        if ($id) {
+            $data = $this->ZakatService->acc_zakat($id);
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'message' => 'Zakat Telah Berhasil Diverifikasi']);
+        } else {
+            header('HTTP/1.1 400 Bad Request');
+            header('Content-Type: application/json');
+            echo json_encode(['success' => false, 'message' => 'Gagal VErifikasi']);
         }
     }
 

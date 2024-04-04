@@ -24,42 +24,44 @@ class PageController
     {
         $url = Api::getUrl("/api/zakat"); // Ganti dengan URL API kamu
         $response = null;
-        if(isset($_POST['submit'])){
-        // Data yang ingin dikirim
-        $data = [
-            'nama' => $_POST['nama'],
-            'jumlah' => $_POST['jumlah'],
-            'alamat' => $_POST['alamat'],
-            'rincian' => explode(", ",$_POST['rincian']),
-            'keterangan' => explode(", ",$_POST['keterangan']),
-            'kode_ms' => 'dm',
-        ];
+        if (isset($_POST['submit'])) {
+            // Data yang ingin dikirim
+            $data = [
+                'nama' => $_POST['nama'],
+                'jumlah' => $_POST['jumlah'],
+                'alamat' => $_POST['alamat'],
+                'rincian' => isset($_POST['rincian']) ? $_POST['rincian'] : "-", // Penanganan input dinamis
+                'keterangan' => isset($_POST['keterangan']) ? $_POST['keterangan'] : "-", // Penanganan input dinamis
+                'kode_ms' => 'dm',
+            ];
 
-        // Konfigurasi opsi untuk HTTP POST
-        $options = [
-            'http' => [
-                'header'  => "Content-Type: application/json\r\n",
-                'method'  => 'POST',
-                'content' => json_encode($data), // Encode array data ke JSON
-            ],
-        ];
+            // Konfigurasi opsi untuk HTTP POST
+            $options = [
+                'http' => [
+                    'header'  => "Content-Type: application/json\r\n",
+                    'method'  => 'POST',
+                    'content' => json_encode($data), // Encode array data ke JSON
+                ],
+            ];
 
-        // Buat context stream dengan opsi yang telah didefinisikan
-        $context  = stream_context_create($options);
+            // Buat context stream dengan opsi yang telah didefinisikan
+            $context  = stream_context_create($options);
 
-        // Gunakan file_get_contents() untuk melakukan request dan menangkap responsenya
-        $response = file_get_contents($url, false, $context);
+            // Gunakan file_get_contents() untuk melakukan request dan menangkap responsenya
+            $response = file_get_contents($url, false, $context);
 
-        // Periksa apakah request berhasil
-        if ($response === FALSE) {
-            die('Terjadi kesalahan saat mengirim data');
-        }}
+            // Periksa apakah request berhasil
+            if ($response === FALSE) {
+                die('Terjadi kesalahan saat mengirim data');
+            }
+        }
 
-        $msg = $response;
+        $msg = $response ? json_decode($response) : '';
         $title = "form";
         $content = __DIR__ . '/../../../views/content/form.php';
         require __DIR__ . '/../../../views/layout/index.php';
     }
+
     public function table()
     {
         $apiUrl = Api::getUrl("/api/zakat");
@@ -67,6 +69,45 @@ class PageController
         $data = json_decode($response, true);
         $title = "table";
         $content = __DIR__ . '/../../../views/content/table.php';
+        require __DIR__ . '/../../../views/layout/index.php';
+    }
+    public function table_verif()
+    {
+        $url = Api::getUrl("/api/zakat/verif");
+        $response = null;
+        if (isset($_POST['submit'])) {
+            // Data yang ingin dikirim
+            $data = [
+                'id' => $_POST['id']
+            ];
+
+            // Konfigurasi opsi untuk HTTP POST
+            $options = [
+                'http' => [
+                    'header'  => "Content-Type: application/json\r\n",
+                    'method'  => 'POST',
+                    'content' => json_encode($data), // Encode array data ke JSON
+                ],
+            ];
+
+            // Buat context stream dengan opsi yang telah didefinisikan
+            $context  = stream_context_create($options);
+
+            // Gunakan file_get_contents() untuk melakukan request dan menangkap responsenya
+            $response = file_get_contents($url, false, $context);
+
+            // Periksa apakah request berhasil
+            if ($response === FALSE) {
+                die('Terjadi kesalahan saat mengirim data');
+            }
+        }
+
+        $msg = $response ? json_decode($response) : '';
+        $apiUrl = Api::getUrl("/api/zakat");
+        $respon = file_get_contents($apiUrl);
+        $data = json_decode($respon, true);
+        $title = "verif-zakat";
+        $content = __DIR__ . '/../../../views/content/verif.php';
         require __DIR__ . '/../../../views/layout/index.php';
     }
 }

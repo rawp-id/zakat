@@ -4,15 +4,16 @@ namespace App\Models;
 
 class Zakat
 {
-    private String $id;
-    private string $nama;
-    private int $jumlah;
-    private string $alamat;
-    private string $rincian;
-    private String $keterangan;
-    private String $code;
+    protected String $id;
+    protected string $nama;
+    protected int $jumlah;
+    protected string $alamat;
+    protected string $rincian;
+    protected String $keterangan;
+    protected String $code;
+    protected int $status;
 
-    public function __construct($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $code)
+    public function __construct($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $code, $status)
     {
         $this->id = $id;
         $this->nama = $nama;
@@ -21,6 +22,7 @@ class Zakat
         $this->rincian = $rincian;
         $this->keterangan = $keterangan;
         $this->code = $code;
+        $this->status = $status;
     }
 
 
@@ -94,9 +96,13 @@ class Zakat
             'rincian' => $this->rincian,
             'keterangan' => $this->keterangan,
             'code' => $this->code,
+            'status' => $this->status,
         ];
     }
 
     public function getCode(): String { return $this->code; }
     public function setCode(String $code): self { $this->code = $code; return $this; }
+
+    public function getStatus(): int { return $this->status; }
+    public function setStatus(int $status): self { $this->status = $status; return $this; }
 }

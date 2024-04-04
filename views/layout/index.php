@@ -1,3 +1,7 @@
+<?php
+ob_start(); // Memulai output buffering
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -126,7 +130,7 @@
     ?>
 
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- jtable js cdn -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- <script type="text/javascript"
@@ -138,7 +142,7 @@
         new DataTable('#example');
     </script>
 
-    <script>
+    <!-- <script>
         (() => {
             'use strict'
 
@@ -166,7 +170,7 @@
                 newInputGroup.classList.add('input-group', 'mb-3', 'inputField');
                 newInputGroup.innerHTML = `
                     <span class="input-group-text">@</span>
-                    <input type="text" class="form-control" name="rincian[]" required placeholder="Rincian...">
+                    <input type="text" class="form-control" name="rincian[]" id="keterangan[]" required placeholder="Rincian...">
                     <button class="btn btn-light deleteButton" type="button"><i class="bi bi-trash3"></i></button>
                     <div class="invalid-feedback">
                         Silahkan isikan rincian, jika tidak ada rincian hapus inputannya
@@ -195,7 +199,7 @@
                 const newInputGroup = document.createElement('div');
                 newInputGroup.classList.add('input-group', 'mb-3', 'inputField2');
                 newInputGroup.innerHTML = `
-                <textarea name="" id="" class="form-control" name="keterangan[]" required placeholder="keterangan..."></textarea>
+                <textarea name="keterangan[]" id="keterangan[]" class="form-control" required placeholder="keterangan..."></textarea>
                 <button class="btn btn-light deleteButton2" type="button"><i class="bi bi-trash3"></i></button>
                 <div class="invalid-feedback">
                     Silahkan isikan keterangan, jika tidak ada keterangan hapus inputannya
@@ -216,34 +220,7 @@
             updateDeleteButtons();
             document.querySelector('.addInputButton2').addEventListener('click', addInputField);
         });
-    </script>
-
-    <!-- Chart Js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Chart js -->
-    <script>
-        const ctx = document.getElementById('myChart');
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    </script>
+    </script> -->
 
     <!-- Bootstrap Js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

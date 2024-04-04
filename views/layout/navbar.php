@@ -57,10 +57,13 @@
                             <a class="nav-link <?= $title==="dashboard"?"active":""?>" aria-current="page" href="/dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $title==="form"?"active":""?>" href="/form"><i class="bi bi-pencil-square"></i> Form</a>
+                            <a class="nav-link <?= $title==="form"?"active":""?>" href="/form"><i class="bi bi-pencil-square"></i> Form Zakat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link <?= $title==="table"?"active":""?>" href="/table"><i class="bi bi-file-bar-graph"></i> Table</a>
+                            <a class="nav-link <?= $title==="verif-zakat"?"active":""?>" href="/verifikasi-zakat"><i class="bi bi-check2-square"></i> Verifikasi Zakat</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?= $title==="table"?"active":""?>" href="/table"><i class="bi bi-file-bar-graph"></i> Data Zakat</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
