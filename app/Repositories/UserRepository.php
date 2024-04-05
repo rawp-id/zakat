@@ -120,6 +120,19 @@ class UserRepository
 
         return $result;
     }
+
+    public function verifikasi($email, $kode){
+        $sql = "UPDATE `zakat` SET `verifikasi`= NOW() WHERE `email`=? AND `kode_verif`=?;";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $stmt->bind_param("ss", $email,$kode);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
+    }
 }
 
 // $obj = new UserRepository();

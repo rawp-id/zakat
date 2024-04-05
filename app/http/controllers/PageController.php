@@ -20,6 +20,23 @@ class PageController
         $content = __DIR__ . '/../../../views/content/dashboard.php';
         require __DIR__ . '/../../../views/layout/index.php';
     }
+
+    public function login()
+    {
+        $type = "auth";
+        $title = "login";
+        $content = __DIR__ . '/../../../views/content/login.php';
+        require __DIR__ . '/../../../views/layout/index.php';
+    }
+    
+    public function register()
+    {
+        $type = "auth";
+        $title = "register";
+        $content = __DIR__ . '/../../../views/content/register.php';
+        require __DIR__ . '/../../../views/layout/index.php';
+    }
+
     public function form()
     {
         $url = Api::getUrl("/api/zakat"); // Ganti dengan URL API kamu

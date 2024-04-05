@@ -6,12 +6,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 require_once __DIR__ . '/../routes/Route.php';
 require_once __DIR__ . '/../routes/Router.php';
-require_once __DIR__ . '/../app/http/controllers/ZakatController.php';
-require_once __DIR__ . '/../app/http/controllers/UserController.php';
-require_once __DIR__ . '/../app/http/controllers/PageController.php';
-require_once __DIR__ . '/../app/http/controllers/auth/Login.php';
-require_once __DIR__ . '/../app/http/controllers/auth/Register.php';
-require_once __DIR__ . '/../app/http/controllers/auth/AuthController.php';
+require_once __DIR__ . '/../app/Http/Controllers/ZakatController.php';
+require_once __DIR__ . '/../app/Http/Controllers/UserController.php';
+require_once __DIR__ . '/../app/Http/Controllers/PageController.php';
+require_once __DIR__ . '/../app/Http/Controllers/Auth/Login.php';
+require_once __DIR__ . '/../app/Http/Controllers/Auth/Register.php';
+require_once __DIR__ . '/../app/Http/Controllers/Auth/AuthController.php';
 
 $router = new Router();
 
@@ -33,6 +33,8 @@ $router->addRoute('/form', 'PageController@form', 'POST');
 $router->addRoute('/table', 'PageController@table', 'GET');
 $router->addRoute('/verifikasi-zakat', 'PageController@table_verif', 'GET');
 $router->addRoute('/verifikasi-zakat', 'PageController@table_verif', 'POST');
+$router->addRoute('/login', 'PageController@login', 'GET');
+$router->addRoute('/register', 'PageController@register', 'GET');
 
 // $router->addRoute('/', '', 'GET', '/../views/template/index.html');
 $router->addRoute('/maintenance', '', 'GET', '/../storage/maintenance.html');
