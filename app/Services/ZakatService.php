@@ -31,7 +31,8 @@ class ZakatService
         }
     }
 
-    public function acc_zakat($id){
+    public function acc_zakat($id): bool
+    {
         try {
             return $this->ZakatRepository->acc_zakat($id);
         } catch (\Exception $e) {

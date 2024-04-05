@@ -20,7 +20,7 @@ class AuthService
     public function authenticate($email, $password)
     {
         $user = $this->userRepository->findUserByEmail($email);
-        if ($user !== null && ($user['password']!=""||$user['password']!=null) && $password === $user['password']) {
+        if ($user !== null && ($user['password'] != "" || $user['password'] != null) && $password === $user['password']) {
             $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
 
             $payload = [
@@ -49,6 +49,11 @@ class AuthService
         } catch (\Exception $e) {
             return false;
         }
+    }
+    
+    public function verifikasi($email, $kode)
+    {
+        return $this->userRepository->verifikasi($email, $kode);
     }
 }
 // $obj = new AuthService();

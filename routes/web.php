@@ -35,6 +35,7 @@ $router->addRoute('/verifikasi-zakat', 'PageController@table_verif', 'GET');
 $router->addRoute('/verifikasi-zakat', 'PageController@table_verif', 'POST');
 $router->addRoute('/login', 'PageController@login', 'GET');
 $router->addRoute('/register', 'PageController@register', 'GET');
+$router->addRoute('/verifikasi', 'PageController@verifikasi', 'GET');
 
 // $router->addRoute('/', '', 'GET', '/../views/template/index.html');
 $router->addRoute('/maintenance', '', 'GET', '/../storage/maintenance.html');

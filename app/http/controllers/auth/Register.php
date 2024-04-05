@@ -33,22 +33,30 @@ class RegisterController
             $nama = $decoded['nama'] ?? null;
             $email = $decoded['email'] ?? null;
             $password = $decoded['password'] ?? null;
+            $repassword = $decoded['repassword'] ?? null;
         } else {
             $nama = $_POST['nama'] ?? null;
             $email = $_POST['email'] ?? null;
             $password = $_POST['password'] ?? null;
+            $repassword = $_POST['repassword'] ?? null;
         }
 
         $k_verif = bin2hex(random_bytes(16));
-
-        $result = $this->userService->register($nama, $email, $password, $k_verif);
-        if ($result===true) {
-            sendVerificationEmail($email, $k_verif);
-            header('Content-Type: application/json');
-            echo Response::success(['message' => 'User registered successfully. Verification email sent.']);
-        } else {
-            header('HTTP/1.1 400 Bad Request');
-            echo Response::error($result['error'] ?? 'Registration failed.');
+        if ($nama && $email && $password && $repassword) {
+            if ($password === $repassword) {
+                $result = $this->userService->register($nama, $email, $password, $k_verif);
+                if ($result === true) {
+                    sendVerificationEmail($email, $k_verif);
+                    header('Content-Type: application/json');
+                    echo Response::success(['message' => 'User registered successfully. Verification email sent.']);
+                } else {
+                    header('HTTP/1.1 400 Bad Request');
+                    echo Response::error($result['error'] ?? 'Registration failed.');
+                }
+            } else {
+                header('HTTP/1.1 400 Bad Request');
+                echo Response::error('Password Tidak Sama');
+            }
         }
     }
 }

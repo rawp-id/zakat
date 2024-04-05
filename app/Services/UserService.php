@@ -23,18 +23,26 @@ class UserService
     public function register($nama, $email, $password, $k_verif)
     {
         if ($this->userRepository->findUserByEmail($email) !== null) {
-            return ['error' => 'Email already exists.'];
+            return ['message' => 'Email already exists.'];
         }
 
         if (!$this->userRepository->isValidPassword($password)) {
-            return ['error' => 'Password does not meet complexity requirements.'];
+            return ['message' => 'Password does not meet complexity requirements.'];
         }
 
         if ($this->userRepository->containsDisallowedCharacters($email) || $this->userRepository->containsDisallowedCharacters($password)) {
-            return ['error' => 'Input contains disallowed characters.'];
+            return ['message' => 'Input contains disallowed characters.'];
         }
 
         return $this->userRepository->add($nama, $email, $password, $k_verif, 2);
+    }
+
+    public function setKodeMs($id, $kode_ms){
+        return $this->userRepository->kodeMs($id, $kode_ms);
+    }
+    
+    public function setPassword($id, $password){
+        return $this->userRepository->setPassword($id, $password);
     }
 }
 

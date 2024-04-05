@@ -28,13 +28,19 @@ class PageController
         $content = __DIR__ . '/../../../views/content/login.php';
         require __DIR__ . '/../../../views/layout/index.php';
     }
-    
+
     public function register()
     {
         $type = "auth";
         $title = "register";
         $content = __DIR__ . '/../../../views/content/register.php';
         require __DIR__ . '/../../../views/layout/index.php';
+    }
+
+    public function verifikasi()
+    {
+        $title = "verifikasi";
+        require __DIR__ . '/../../../views/content/verifikasi.php';
     }
 
     public function form()

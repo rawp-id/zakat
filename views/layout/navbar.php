@@ -17,10 +17,17 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">Kembali</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right"></i> Kembali</a></li>
                         </ul>
                     </li>
                 </ul>
+                <div class="d-flex">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i> Kembali</a>
+                        </li>
+                    </ul>
+                </div>
             <?php
             } else {
             ?>
@@ -78,9 +85,9 @@
                             <li class="nav-item">
                                 <a class="nav-link <?= $title === "register" ? "active" : "" ?>" href="/register">Register</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">Kembali</a>
-                            </li>
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="#"><i class="bi bi-box-arrow-in-right"></i> Kembali</a>
+                            </li> -->
                         </ul>
                     </div>
                 </nav>

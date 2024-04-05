@@ -12,8 +12,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js" /> -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 
@@ -92,7 +91,6 @@
             flex-grow: 1;
             height: 1px;
             background-color: #5a5a5a;
-            /* Ganti warna sesuai tema */
         }
 
         .round {
@@ -104,8 +102,7 @@
 <body style="color: white; background-color: rgb(28, 32, 35);">
 
     <!-- navbar top -->
-    <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body"
-        data-bs-theme="dark">
+    <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container">
             <a class="navbar-brand" href="#">Verifikasi Email</a>
         </div>
@@ -114,9 +111,7 @@
     <!-- main content -->
     <div class="container-fluid">
 
-        <!-- Register -->
         <div class="container mt-5">
-            <!-- <h3>Register</h3> -->
             <div class="row">
                 <div class="col-md-2 col-lg-4"></div>
                 <div class="col-12 col-md-8 col-lg-4">
@@ -124,24 +119,34 @@
                         <div class="card-body mt-2 mb-3">
                             <h5 class="card-title">Verifikasi Email</h5>
                             <hr>
+                            <div class="container">
+                                <?php
+                                if ($msg != null) :
+                                ?>
+                                    <div class="alert <?= ($msg->success === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
+                                        <?= $msg->message ?>
+                                    </div>
+                                <?php
+                                    header("Refresh:4");
+                                    ob_end_flush();
+                                endif;
+                                ?>
+                            </div>
                             <div class="container-fluid">
-                                <form>
-                                    <input type="text" class="form-control round" name="email" value="<?= ?>" id="exampleInputtext1">
-                                    <input type="text" class="form-control round" name="code" id="exampleInputtext1">
+                                <form method="post">
+                                    <input type="text" class="form-control round" name="email" value="<?= $_GET['email'] ?>" id="exampleInputtext1" hidden>
+                                    <input type="text" class="form-control round" name="code" value="<?= $_GET['code'] ?>" id="exampleInputtext1" hidden>
                                     <div class="row">
                                         <div class="col-11 col-sm-8 col-md-6 col-lg-8 mx-auto">
-                                            <button type="submit" class="btn btn-light mt-3 mb-3 w-100"
-                                                style="border-radius: 20px;">Verifikasi</button>
+                                            <button type="submit" class="btn btn-light mt-3 mb-3 w-100" style="border-radius: 20px;">Verifikasi</button>
                                         </div>
                                     </div>
-                                    <hr>
-                                    <p style="font-size: small">Informasi ini akan disimpan dengan aman sesuai <a
-                                            href="https://policies.google.com/"
-                                            style="text-decoration: none; color: white;"><b>Ketentuan Layanan &
-                                                Kebijakan
-                                                Privasi</b></a></p>
                                 </form>
                             </div>
+                            <hr>
+                            <p style="font-size: small">Informasi ini akan disimpan dengan aman sesuai <a href="https://policies.google.com/" style="text-decoration: none; color: white;"><b>Ketentuan Layanan &
+                                        Kebijakan
+                                        Privasi</b></a></p>
                         </div>
                     </div>
                 </div>
@@ -185,7 +190,7 @@
         </script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 const form = document.getElementById('dynamicForm');
                 const inputContainer = document.getElementById('inputContainer');
 
@@ -203,7 +208,7 @@
 
                 function updateDeleteButtons() {
                     document.querySelectorAll('.deleteButton').forEach(button => {
-                        button.onclick = function () {
+                        button.onclick = function() {
                             this.parentElement.remove();
                         }
                     });
@@ -212,7 +217,6 @@
                 updateDeleteButtons();
                 document.querySelector('.addInputButton').addEventListener('click', addInputField);
             });
-
         </script>
 
         <!-- Chart Js CDN -->
@@ -243,9 +247,7 @@
         </script>
 
         <!-- Bootstrap Js CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

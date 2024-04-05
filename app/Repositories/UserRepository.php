@@ -121,11 +121,40 @@ class UserRepository
         return $result;
     }
 
-    public function verifikasi($email, $kode){
-        $sql = "UPDATE `zakat` SET `verifikasi`= NOW() WHERE `email`=? AND `kode_verif`=?;";
+    public function verifikasi($email, $kode)
+    {
+        $sql = "UPDATE `user` SET `verifikasi`= NOW() WHERE `email`=? AND `kode_verif`=?;";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $stmt->bind_param("ss", $email,$kode);
+        $stmt->bind_param("ss", $email, $kode);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
+    }
+
+    public function kodeMs($id, $kode)
+    {
+        $sql = "UPDATE `user` SET `kode_ms`=? WHERE `id`=?;";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $stmt->bind_param("ss", $kode, $id);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+
+        return $result > 0;
+    }
+
+    public function setPassword($id, $password)
+    {
+        $sql = "UPDATE `user` SET `password`=? WHERE `id`=?;";
+        $stmt = $this->db->getDb()->prepare($sql);
+
+        $stmt->bind_param("ss", $password, $id);
 
         $result = $stmt->execute();
 

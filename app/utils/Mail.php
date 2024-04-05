@@ -28,11 +28,20 @@ function sendVerificationEmail($email, $verificationCode)
 
         $mail->isHTML(true);
         $mail->Subject = 'Verifikasi Email Anda';
-        $mail->Body    = 'Silakan klik link ini untuk verifikasi akun Anda: <a href="http://yourdomain.com/verify.php?code=' . $verificationCode . '">Verifikasi</a>';
-
+        ob_start();
+        include __DIR__ . '/../../storage/email.php';
+        $emailBody = ob_get_clean();
+    
+        $mail->Body = $emailBody;
         $mail->send();
         return 'Pesan telah terkirim';
     } catch (Exception $e) {
         return "Pesan tidak dapat dikirim. Mailer Error: {$mail->ErrorInfo}";
     }
 }
+
+// if(sendVerificationEmail("wpipit35@gmail.com", "123")){
+//     echo "berhasil";
+// }else{
+//     echo "gagal";
+// }
