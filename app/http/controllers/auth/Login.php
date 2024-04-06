@@ -31,7 +31,7 @@ class LoginController
             $password = $_POST['password'] ?? null;
         }
 
-        $jwt = $this->authService->authenticate($email, md5($password));
+        $jwt = $this->authService->authenticate($email, $password);
 
         if ($jwt) {
             header('Content-Type: application/json');

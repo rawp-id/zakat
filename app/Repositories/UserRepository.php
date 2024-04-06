@@ -98,10 +98,10 @@ class UserRepository
         $sql = "INSERT INTO `user` (`id`, `nama`, `email`, `password`, `kode_verif`, `role`) VALUES (UUID(), ?, ?, ?, ?, ?);";
         $stmt = $this->db->getDb()->prepare($sql);
 
-        $stmt->bind_param("ssssi", $nama, $email, $password, $k_verif, $role);
+        $stmt->bind_param("ssssi", $nama, $email, password_hash($password, PASSWORD_DEFAULT), $k_verif, $role);
 
         $result = $stmt->execute();
-
+ 
         $stmt->close();
 
         return $result;

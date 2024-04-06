@@ -2,7 +2,7 @@
     <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid">
             <?php
-            if ($type == "auth") {
+            if ($type === "auth") {
             ?>
                 <button class="btn btn-light desktop" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" style="border-radius: 100px; width: 7%; margin-right: 1%;"><i class="bi bi-list"></i>
                     Menu</button>
@@ -123,7 +123,7 @@
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="#"> <i class="bi bi-box-arrow-in-right"></i> Log Out</a></li>
+                                    <li><a class="dropdown-item" href="/logout"> <i class="bi bi-box-arrow-in-right"></i> Log Out</a></li>
                                 </ul>
                             </li>
                             <!-- <li class="nav-item">

@@ -52,9 +52,9 @@
                             </div>
                             <div class="row">
                                 <div class="col-11 col-sm-8 col-md-6 col-lg-8 mx-auto">
-                                    <button type="submit" class="btn btn-light mt-3 mb-3 w-100" style="border-radius: 20px;">
+                                    <a href="/maintenance" type="submit" class="btn btn-light mt-3 mb-3 w-100" style="border-radius: 20px;">
                                         <img src="/views/img/search.png" alt="google" style="width: 10%;">
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             <hr>

@@ -91,6 +91,7 @@
             flex-grow: 1;
             height: 1px;
             background-color: #5a5a5a;
+            /* Ganti warna sesuai tema */
         }
 
         .round {
@@ -104,47 +105,73 @@
     <!-- navbar top -->
     <nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Verifikasi Email</a>
+            <a class="navbar-brand" href="#">Kode Masjid</a>
         </div>
     </nav>
 
     <!-- main content -->
     <div class="container-fluid">
 
+        <!-- Register -->
         <div class="container mt-5">
+            <!-- <h3>Register</h3> -->
             <div class="row">
                 <div class="col-md-2 col-lg-4"></div>
                 <div class="col-12 col-md-8 col-lg-4">
                     <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 30px;">
                         <div class="card-body mt-2 mb-3">
-                            <h5 class="card-title">Verifikasi Email</h5>
+                            <h5 class="card-title">Kode Masjid</h5>
                             <hr>
-                            <div class="container">
-                                <?php
-                                if ($msg != null) :
-                                ?>
-                                    <div class="alert <?= ($msg->success === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
-                                        <?= $msg->message ?>
+                            <?php
+                            if ($msg != null) :
+                            ?>
+                                <div class="alert <?= ($msg->status === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
+                                    <div class="spinner-border mb-2" role="status">
+                                        <span class="visually-hidden">Loading...</span>
                                     </div>
-                                <?php
-                                endif;
-                                ?>
-                            </div>
+                                    <br>
+                                    <?= $msg->message ?>,
+                                    <br>
+                                    Tunggu Redirect Dashboard
+                                </div>
+                            <?php
+                                header("Refresh:4; url=/dashboard");
+                                ob_end_flush();
+                            endif;
+                            ?>
                             <div class="container-fluid">
                                 <form method="post">
-                                    <input type="text" class="form-control round" name="email" value="<?= $_GET['email'] ?>" id="exampleInputtext1" hidden>
-                                    <input type="text" class="form-control round" name="code" value="<?= $_GET['code'] ?>" id="exampleInputtext1" hidden>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="kode" placeholder="Kode" aria-label="Recipient's username" aria-describedby="button-addon2" value="<?= $kode ?>">
+                                        <button class="btn btn-outline-light" type="submit" name="cek" id="button-addon2"><i class="bi bi-search"></i> Cek</button>
+                                    </div>
+                                    <?php
+                                    if ($masjidData != null && $masjidData != "empty") {
+                                    ?>
+                                        <div class="card" style="border-radius: 30px;">
+                                            <h4 class="mt-3 text-success">Data Ditemukan</h4>
+                                            <strong class="mb-3">Masjid <?= $masjidData['nama'] ?></strong>
+                                        </div>
+                                    <?php
+                                    } elseif ($masjidData != "empty") {
+                                    ?>
+                                        <div class="card" style="border-radius: 30px;">
+                                            <h4 class="mt-3 mb-3 text-danger">Data Tidak Ditemukan</h4>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="row">
                                         <div class="col-11 col-sm-8 col-md-6 col-lg-8 mx-auto">
-                                            <button type="submit" name="submit" class="btn btn-light mt-3 mb-3 w-100" style="border-radius: 20px;">Verifikasi</button>
+                                            <button type="submit" name="submit" class="btn btn-light mt-4 mb-3 w-100" style="border-radius: 20px;">Simpan</button>
                                         </div>
                                     </div>
+                                    <hr>
+                                    <p style="font-size: small">Informasi ini akan disimpan dengan aman sesuai <a href="https://policies.google.com/" style="text-decoration: none; color: white;"><b>Ketentuan Layanan &
+                                                Kebijakan
+                                                Privasi</b></a></p>
                                 </form>
                             </div>
-                            <hr>
-                            <p style="font-size: small">Informasi ini akan disimpan dengan aman sesuai <a href="https://policies.google.com/" style="text-decoration: none; color: white;"><b>Ketentuan Layanan &
-                                        Kebijakan
-                                        Privasi</b></a></p>
                         </div>
                     </div>
                 </div>

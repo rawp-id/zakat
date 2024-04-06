@@ -44,6 +44,10 @@ class UserService
     public function setPassword($id, $password){
         return $this->userRepository->setPassword($id, $password);
     }
+
+    public function getUserByEmail($email){
+        return $this->userRepository->findUserByEmail($email);
+    }
 }
 
 // $obj = new UserService();

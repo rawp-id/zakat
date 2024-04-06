@@ -20,7 +20,7 @@ class AuthService
     public function authenticate($email, $password)
     {
         $user = $this->userRepository->findUserByEmail($email);
-        if ($user !== null && ($user['password'] != "" || $user['password'] != null) && $password === $user['password']) {
+        if ($user !== null && ($user['password'] != "" || $user['password'] != null) && password_verify($password, $user['password'])) {
             $domain = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
 
             $payload = [
@@ -30,7 +30,7 @@ class AuthService
                 "exp" => time() + (60 * 60),
                 "data" => [
                     "id" => $user['id'],
-                    "email" => $user['email']
+                    "email" => $user['email'],
                 ]
             ];
 
@@ -57,6 +57,6 @@ class AuthService
     }
 }
 // $obj = new AuthService();
-// echo $obj->authenticate("admin@admin", md5("admin"));
+// echo $obj->authenticate("admin@admin.com", md5("Admin_123"));
 
 // echo "<br>".md5('admin');
