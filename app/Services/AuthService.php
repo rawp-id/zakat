@@ -34,7 +34,7 @@ class AuthService
                 ]
             ];
 
-            $jwt = JWT::encode($payload, '123', 'HS256');
+            $jwt = @JWT::encode($payload, '123', 'HS256');
             return $jwt;
         } else {
             return null;

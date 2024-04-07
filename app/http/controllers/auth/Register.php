@@ -42,16 +42,16 @@ class RegisterController
         }
 
         $k_verif = bin2hex(random_bytes(16));
-        if ($nama && $email && $password && $repassword) {
+        if ($nama && $email && $password && $repassword && ($password === $repassword)) {
             if ($password === $repassword) {
                 $result = $this->userService->register($nama, $email, $password, $k_verif);
                 if ($result === true) {
                     sendVerificationEmail($email, $k_verif);
                     header('Content-Type: application/json');
-                    echo Response::success(['message' => 'User registered successfully. Verification email sent.']);
+                    echo Response::msg(true, 'Selamat! Berhasil Registrasi. Email verifikasi dikirim ke alamat email. Mohon periksa kotak masuk email Anda, dan jika perlu, cek juga folder spam.');
                 } else {
                     header('HTTP/1.1 400 Bad Request');
-                    echo Response::error($result['error'] ?? 'Registration failed.');
+                    echo Response::msg(false, 'Gagal Registrasi.');
                 }
             } else {
                 header('HTTP/1.1 400 Bad Request');

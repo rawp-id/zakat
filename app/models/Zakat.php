@@ -12,8 +12,9 @@ class Zakat
     protected String $keterangan;
     protected String $code;
     protected int $status;
+    protected String $tanggal;
 
-    public function __construct($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $code, $status)
+    public function __construct($id, $nama, $jumlah, $alamat, $rincian, $keterangan, $code, $status, $tanggal)
     {
         $this->id = $id;
         $this->nama = $nama;
@@ -23,6 +24,7 @@ class Zakat
         $this->keterangan = $keterangan;
         $this->code = $code;
         $this->status = $status;
+        $this->tanggal = $tanggal;
     }
 
 
@@ -97,6 +99,7 @@ class Zakat
             'keterangan' => $this->keterangan,
             'code' => $this->code,
             'status' => $this->status,
+            'tanggal' => $this->tanggal,
         ];
     }
 
@@ -105,4 +108,7 @@ class Zakat
 
     public function getStatus(): int { return $this->status; }
     public function setStatus(int $status): self { $this->status = $status; return $this; }
+
+    public function getTanggal(): String { return $this->tanggal; }
+    public function setTanggal(String $tanggal): self { $this->tanggal = $tanggal; return $this; }
 }

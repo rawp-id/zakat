@@ -1,6 +1,6 @@
 <!-- Table -->
 <div class="container mt-5">
-    <h3>Verivikasi Zakat</h3>
+    <h3>Verifikasi Zakat</h3>
     <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 30px;">
         <div class="card-body mt-2 mb-3">
             <h5 class="card-title">Table</h5>
@@ -8,20 +8,24 @@
             <?php
             if ($msg != null) :
             ?>
-                <div class="alert <?= ($msg->success === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
+                <div class="alert <?= ($msg->status === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
+                    <div class="spinner-border mb-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <br>
                     <?= $msg->message ?>
                 </div>
-            <?php 
-            header("Refresh:4");
-            ob_end_flush(); 
-            endif; 
+            <?php
+                header("Refresh:2");
+                ob_end_flush();
+            endif;
             ?>
             <div class="container">
                 <div class="table-responsive">
                     <table id="example" class="table table-striped bg-dark">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Tanggal</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Jumlah</th>
                                 <th scope="col">Alamat</th>
@@ -35,10 +39,10 @@
                             <?php
                             $i = 1;
                             foreach ($data['data'] as $datas) :
-                                if ($datas['status'] === 0) :
+                                if ($datas['status'] === 0 && $datas['code'] === $_SESSION['kode_ms']) :
                             ?>
                                     <tr>
-                                        <th scope="row"><?= $i ?></th>
+                                        <th scope="row"><?= $datas['tanggal'] ?></th>
                                         <td><?= $datas['nama'] ?></td>
                                         <td><?= $datas['jumlah'] ?></td>
                                         <td><?= $datas['alamat'] ?></td>

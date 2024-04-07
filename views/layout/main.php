@@ -9,7 +9,7 @@ ob_start(); // Memulai output buffering
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Zakat</title>
-    <link rel="icon" type="image/png" href="/views/img/zakat (1).png">
+    <link rel="icon" type="image/png" href="/views/img/moon.png">
 
     <!-- Bootstrap Jtable CSS CDN -->
     <!-- <link rel="stylesheet" type="text/css"
@@ -121,6 +121,9 @@ ob_start(); // Memulai output buffering
         ?>
     </div>
 
+    <br>
+    <br>
+    <br>
     <br>
     <br>
     <br>

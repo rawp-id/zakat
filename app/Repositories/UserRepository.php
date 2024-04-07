@@ -97,15 +97,20 @@ class UserRepository
     {
         $sql = "INSERT INTO `user` (`id`, `nama`, `email`, `password`, `kode_verif`, `role`) VALUES (UUID(), ?, ?, ?, ?, ?);";
         $stmt = $this->db->getDb()->prepare($sql);
-
-        $stmt->bind_param("ssssi", $nama, $email, password_hash($password, PASSWORD_DEFAULT), $k_verif, $role);
-
+    
+        // Hash password terlebih dahulu dan simpan ke dalam variabel
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    
+        // Gunakan variabel yang menyimpan password yang telah di-hash
+        $stmt->bind_param("ssssi", $nama, $email, $hashedPassword, $k_verif, $role);
+    
         $result = $stmt->execute();
- 
+    
         $stmt->close();
-
+    
         return $result;
     }
+    
 
     public function add_google($google_id, $nama, $email, $k_verif, $role, $img_url): bool
     {

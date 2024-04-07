@@ -33,6 +33,7 @@ class ZakatRepository
                     ($row['keterangan'] != null) ? $row['keterangan'] : "-",
                     $row['kode_ms'],
                     $row['status'],
+                    $row['tanggal'] != null ? $row['tanggal'] : "",
                 );
                 $data->push($zakat);
             }

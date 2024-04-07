@@ -10,7 +10,7 @@
                     <table id="example" class="table table-striped bg-dark">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Tanggal</th>
                                 <th scope="col">Nama</th>
                                 <th scope="col">Jumlah</th>
                                 <th scope="col">Alamat</th>
@@ -23,10 +23,10 @@
                             <?php
                             $i = 1;
                             foreach ($data['data'] as $datas) :
-                                if ($datas['status'] === 1) :
+                                if ($datas['status'] === 1 && $datas['code'] === $_SESSION['kode_ms']) :
                             ?>
                                     <tr>
-                                        <th scope="row"><?= $i ?></th>
+                                        <th scope="row"><?= $datas['tanggal'] ?></th>
                                         <td><?= $datas['nama'] ?></td>
                                         <td><?= $datas['jumlah'] ?></td>
                                         <td><?= $datas['alamat'] ?></td>

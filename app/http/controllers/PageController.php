@@ -15,14 +15,13 @@ class PageController
     function __construct()
     {
         session_start();
-        ob_start(); 
+        ob_start();
     }
 
     public function dashboard()
     {
         if (isset($_SESSION['token'])) {
             $token = $_SESSION['token'];
-            echo $token;
         } else {
             header('Location: /login');
             exit;
@@ -30,13 +29,12 @@ class PageController
         $type = "";
         $title = "dashboard";
         $content = __DIR__ . '/../../../views/content/dashboard.php';
-        require __DIR__ . '/../../../views/layout/index.php';
+        require __DIR__ . '/../../../views/layout/main.php';
     }
     public function kodeMs()
     {
         if (isset($_SESSION['token'])) {
             $token = $_SESSION['token'];
-            echo $token;
         } else {
             header('Location: /login');
             exit;
@@ -69,6 +67,8 @@ class PageController
 
             if ($response === FALSE) {
                 die('Terjadi kesalahan saat mengirim data');
+            } else {
+                $_SESSION['kode_ms'] = $_POST['kode'];
             }
         }
         $msg = $response ? json_decode($response) : '';
@@ -82,8 +82,8 @@ class PageController
         $url = Api::getUrl("/api/login");
         // $response = null;
         $msg = "";
-
-        if (isset($_POST['submit'])) {
+        $email = $_POST['email'] ?? null;
+        if (isset($_POST['submitBtn'])) {
             $data = [
                 'email' => $_POST['email'],
                 'password' => $_POST['password'],
@@ -102,40 +102,42 @@ class PageController
             $response = @file_get_contents($url, false, $context);
 
             if ($response === FALSE) {
-                $error = error_get_last();
-                echo "HTTP request failed! Error was: " . $error['message'];
-                if (isset($http_response_header)) {
-                    echo "\nResponse Header: ";
-                    print_r($http_response_header);
-                }
-                exit;
-            }
+                // $error = error_get_last();
+                // echo "HTTP request failed! Error was: " . $error['message'];
+                // if (isset($http_response_header)) {
+                //     echo "\nResponse Header: ";
+                //     print_r($http_response_header);
+                // }
+                $msg = json_decode(Response::error("Email Dan Password Tidak Valid, <br>Cek Kembali Email Dan Password Anda"));
+            } else {
+                $responseData = json_decode($response, true);
+                // echo json_encode($responseData);
+                if ($responseData && $responseData['status'] === true) {
+                    $_SESSION['token'] = $responseData['data']['token'];
+                    $user = new UserService;
+                    $dataUser = $user->getUserByEmail($_POST['email']);
+                    if ($dataUser['verifikasi'] != null && $dataUser['verifikasi'] != "-") {
+                        $_SESSION['id'] = $dataUser['id'];
+                        $_SESSION['nama'] = $dataUser['nama'];
+                        $_SESSION['email'] = $dataUser['email'];
+                        $_SESSION['kode_ms'] = $dataUser['kode_ms'];
 
-            $responseData = json_decode($response, true);
-            // echo json_encode($responseData);
-            if ($responseData && $responseData['status'] === true) {
-                $_SESSION['token'] = $responseData['data']['token'];
-                $user = new UserService;
-                $dataUser = $user->getUserByEmail($_POST['email']);
-                if ($dataUser['verifikasi'] != null && $dataUser['verifikasi'] != "-") {
-                    $_SESSION['id'] = $dataUser['id'];
-                    $_SESSION['email'] = $dataUser['email'];
-
-                    if ($dataUser['kode_ms'] != null || $dataUser['kode_ms'] == "-") {
-                        header('Location: /dashboard');
-                        exit;
+                        if ($dataUser['kode_ms'] != null || $dataUser['kode_ms'] == "-") {
+                            header('Location: /dashboard');
+                            exit;
+                        } else {
+                            header('Location: /kode-masjid');
+                            exit;
+                        }
                     } else {
-                        header('Location: /kode-masjid');
-                        exit;
+                        $msg = json_decode(Response::error("Alamat Email Anda Belum Diverifikasi, <br>Cek Email Anda Untuk Verifikasi"));
+                        // echo $msg;
                     }
                 } else {
-                    $msg = json_decode(Response::error("Alamat Email Anda Belum Diverifikasi, <br>Cek Email Anda Untuk Verifikasi"));
-                    // echo $msg;
+                    // Tangani gagal login
+                    $msg = Response::error("Gagal Login");
+                    // echo 'Login failed. Please check your credentials.';
                 }
-            } else {
-                // Tangani gagal login
-                $msg = Response::error("Gagal Login");
-                echo 'Login failed. Please check your credentials.';
             }
 
             // if ($response === FALSE) {
@@ -146,15 +148,44 @@ class PageController
         $type = "auth";
         $title = "login";
         $content = __DIR__ . '/../../../views/content/login.php';
-        require __DIR__ . '/../../../views/layout/index.php';
+        require __DIR__ . '/../../../views/layout/main.php';
     }
 
     public function register()
     {
+        $url = Api::getUrl("/api/register");
+        $response = null;
+        if (isset($_POST['submitBtn'])) {
+            $data = [
+                'nama' => $_POST['nama'],
+                'email' => $_POST['email'],
+                'password' => $_POST['password'],
+                'repassword' => $_POST['repassword'],
+            ];
+
+            $options = [
+                'http' => [
+                    'header'  => "Content-Type: application/json\r\n",
+                    'method'  => 'POST',
+                    'content' => json_encode($data),
+                ],
+            ];
+
+            $context  = stream_context_create($options);
+
+            $response = @file_get_contents($url, false, $context);
+
+            if ($response === FALSE) {
+                // die('Terjadi kesalahan saat mengirim data');
+                $msg = json_decode(Response::error("Email Dan Password Tidak Valid, <br>Cek Kembali Email Dan Password Anda"));
+            }
+        }
+
+        $msg = $response ? json_decode($response) : '';
         $type = "auth";
         $title = "register";
         $content = __DIR__ . '/../../../views/content/register.php';
-        require __DIR__ . '/../../../views/layout/index.php';
+        require __DIR__ . '/../../../views/layout/main.php';
     }
 
     public function verifikasi()
@@ -193,7 +224,6 @@ class PageController
     {
         if (isset($_SESSION['token'])) {
             $token = $_SESSION['token'];
-            echo $token;
         } else {
             header('Location: /login');
             exit;
@@ -208,7 +238,7 @@ class PageController
                 'alamat' => $_POST['alamat'],
                 'rincian' => isset($_POST['rincian']) ? $_POST['rincian'] : "-",
                 'keterangan' => isset($_POST['keterangan']) ? $_POST['keterangan'] : "-",
-                'kode_ms' => 'dm',
+                'kode_ms' => $_SESSION['kode_ms'],
             ];
 
             $options = [
@@ -228,17 +258,16 @@ class PageController
             }
         }
 
-        $msg = $response ? json_decode($response) : '';
+        $msg = $response ? json_decode(Response::msg(true, "Menyimpan Data")) : '';
         $title = "form";
         $content = __DIR__ . '/../../../views/content/form.php';
-        require __DIR__ . '/../../../views/layout/index.php';
+        require __DIR__ . '/../../../views/layout/main.php';
     }
 
     public function table()
     {
         if (isset($_SESSION['token'])) {
             $token = $_SESSION['token'];
-            echo $token;
         } else {
             header('Location: /login');
             exit;
@@ -249,14 +278,13 @@ class PageController
         $data = json_decode($response, true);
         $title = "table";
         $content = __DIR__ . '/../../../views/content/table.php';
-        require __DIR__ . '/../../../views/layout/index.php';
+        require __DIR__ . '/../../../views/layout/main.php';
     }
 
     public function table_verif()
     {
         if (isset($_SESSION['token'])) {
             $token = $_SESSION['token'];
-            echo $token;
         } else {
             header('Location: /login');
             exit;
@@ -291,13 +319,13 @@ class PageController
             }
         }
 
-        $msg = $response ? json_decode($response) : '';
+        $msg = $response ? json_decode(Response::msg(true, "Menyimpan Data")) : '';
         $apiUrl = Api::getUrl("/api/zakat");
         $respon = file_get_contents($apiUrl);
         $data = json_decode($respon, true);
         $title = "verif-zakat";
         $content = __DIR__ . '/../../../views/content/verif.php';
-        require __DIR__ . '/../../../views/layout/index.php';
+        require __DIR__ . '/../../../views/layout/main.php';
     }
 
     public function logout()

@@ -20,8 +20,8 @@
                             <?= $msg->message ?>
                         </div>
                     <?php
-                        // header("Refresh:4");
-                        // ob_end_flush();
+                    // header("Refresh:4");
+                    // ob_end_flush();
                     endif;
                     ?>
                     <div class="container-fluid">
@@ -29,16 +29,16 @@
                             <div class="container text-start">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Email</label>
-                                    <input type="email" class="form-control round" name="email" id="email">
+                                    <input type="email" class="form-control round" name="email" id="email" value="<?= $email ?>" required>
                                     <div class="invalid-feedback">
                                         Email tidak boleh kosong.
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                                    <input type="password" class="form-control round" name="password" id="password">
+                                    <input type="password" class="form-control round" name="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}" required>
                                     <div class="invalid-feedback">
-                                        Password tidak sama.
+                                        Password tidak Boleh Kosong.
                                     </div>
                                 </div>
                                 <!-- <div class="mb-3 form-check">
@@ -46,7 +46,7 @@
                                     <label class="form-check-label" for="exampleCheck1">Ingat saya</label>
                                 </div> -->
                             </div>
-                            <button type="submit" name="submit" class="btn btn-light mt-3 mb-3 w-75" style="border-radius: 20px;">Login</button>
+                            <button type="submit" name="submitBtn" class="btn btn-light mt-3 mb-3 w-75" style="border-radius: 20px;">Login</button>
                             <!-- <div class="row">
                                 <div class="col-11 col-sm-8 col-md-6 col-lg-8 mx-auto">
                                     <button type="submit" name="submit" class="btn btn-light mt-3 mb-3 w-100" style="border-radius: 20px;">Login</button>
@@ -85,82 +85,62 @@
 </div>
 
 <script>
-    // (() => {
-    //     'use strict';
+    (() => {
+        'use strict';
 
-    //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    //     const forms = document.querySelectorAll('.needs-validation');
+        const forms = document.querySelectorAll('.needs-validation');
 
-    //     // Custom validation rules
-    //     function validateField() {
-    //         const password = document.getElementById('password');
-    //         const passwordRequirements = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+        const showCustomInvalidFeedback = (input, message) => {
+            const feedbackElement = input.nextElementSibling;
+            feedbackElement.textContent = message;
+            feedbackElement.style.display = 'block';
+            input.classList.remove('is-valid');
+            input.classList.add('is-invalid');
+        };
 
-    //         // Validate password against requirements
-    //         if (!passwordRequirements.test(password.value)) {
-    //             password.setCustomValidity('Invalid');
-    //             showCustomInvalidFeedback(password, 'Min 8 Huruf, Huruf Besar, Angka, Symbol.');
-    //         } else {
-    //             password.setCustomValidity('');
-    //         }
-    //     }
+        const showCustomValidFeedback = (input) => {
+            const feedbackElement = input.nextElementSibling;
+            feedbackElement.style.display = 'none'; // Sembunyikan pesan jika ada
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+        };
 
-    //     // Function to check if input contains invalid characters
-    //     const containsInvalidCharacters = (input) => {
-    //         const invalidCharacters = /['"]/; // Regular expression to match single and double quotes
-    //         return invalidCharacters.test(input.value);
-    //     };
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                let formIsValid = true;
 
-    //     // Function to show custom invalid feedback
-    //     const showCustomInvalidFeedback = (input, message) => {
-    //         const feedbackElement = input.nextElementSibling; // Assuming the feedback element is next to the input element
-    //         feedbackElement.textContent = message; // Set custom message
-    //         feedbackElement.style.display = 'block'; // Show feedback element
-    //         input.classList.add('is-invalid'); // Add invalid class to input
-    //     };
+                form.querySelectorAll('input').forEach(input => {
+                    input.classList.remove('is-invalid', 'is-valid'); // Reset state
 
-    //     // Loop over forms and prevent submission
-    //     Array.from(forms).forEach(form => {
-    //         form.addEventListener('submit', event => {
-    //             event.preventDefault();
-    //             event.stopPropagation();
+                    // Custom validation for password
+                    if (input.id === 'password') {
+                        const passwordRequirements = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+                        if (!passwordRequirements.test(input.value)) {
+                            showCustomInvalidFeedback(input, 'Min 8 Huruf, Huruf Besar, Angka, Symbol.');
+                            formIsValid = false;
+                        } else {
+                            showCustomValidFeedback(input); // Tandai sebagai valid
+                        }
+                    }
 
-    //             let formIsValid = true; // Flag to keep track of form validity
+                    const invalidCharacters = /['"]/;
+                    if (invalidCharacters.test(input.value)) {
+                        showCustomInvalidFeedback(input, 'Input tidak boleh mengandung karakter \' atau "');
+                        formIsValid = false;
+                    } else if (input.value.trim() === '') {
+                        showCustomInvalidFeedback(input, `${input.previousElementSibling.textContent} tidak boleh kosong`);
+                        formIsValid = false;
+                    } else if (input.id !== 'password') {
+                        showCustomValidFeedback(input); // Untuk input lain, tandai sebagai valid jika tidak ada masalah lain
+                    }
+                });
 
-
-    //             form.querySelectorAll('input').forEach(input => {
-    //                 // Reset custom validation state
-    //                 input.classList.remove('is-invalid');
-    //                 const feedbackElement = input.nextElementSibling;
-    //                 feedbackElement.style.display = 'none';
-
-    //                 // Check for invalid characters
-    //                 if (containsInvalidCharacters(input)) {
-    //                     showCustomInvalidFeedback(input, 'Input tidak boleh mengandung karakter \' atau "');
-    //                     input.setCustomValidity('Invalid');
-    //                     formIsValid = false; // Mark form as invalid
-    //                 }
-
-    //                 validateField();
-
-    //                 // Empty field validation
-    //                 if (input.value.trim() === '') {
-    //                     input.setCustomValidity('Invalid');
-    //                     showCustomInvalidFeedback(input, `${input.previousElementSibling.textContent} tidak boleh kosong`);
-    //                     input.setCustomValidity('Invalid');
-    //                     formIsValid = false; // Mark form as invalid
-    //                 }
-
-
-    //             });
-
-    //             if (form.checkValidity() && formIsValid) {
-    //                 form.classList.remove('was-validated'); // Remove validation class if form is valid
-    //                 // Here you can add what you want to do when form is valid. For example, submitting form data to server.
-    //             } else {
-    //                 form.classList.add('was-validated'); // Add validation class if form is invalid
-    //             }
-    //         }, false);
-    //     });
-    // })();
+                if (!formIsValid) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                }
+            }, false);
+        });
+    })();
 </script>

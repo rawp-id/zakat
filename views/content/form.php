@@ -9,7 +9,7 @@
             <?php
             if ($msg != null) :
             ?>
-                <div class="alert <?= ($msg->success === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
+                <div class="alert <?= ($msg->status === true ? "alert-success" : "alert-danger") ?>" role="alert" style="border-radius: 25px;">
                     <div class="spinner-border mb-2" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
@@ -17,7 +17,7 @@
                     <?= $msg->message ?>
                 </div>
             <?php
-                header("Refresh:4");
+                header("Refresh:2");
                 ob_end_flush();
             endif;
             ?>

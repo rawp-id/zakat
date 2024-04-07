@@ -12,19 +12,19 @@
                             Menu
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Login</a></li>
-                            <li><a class="dropdown-item" href="#">Register</a></li>
+                            <li><a class="dropdown-item" href="/login">Login</a></li>
+                            <li><a class="dropdown-item" href="/register">Register</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-in-right"></i> Kembali</a></li>
+                            <li><a class="dropdown-item" href="/"><i class="bi bi-box-arrow-in-right"></i> Kembali</a></li>
                         </ul>
                     </li>
                 </ul>
                 <div class="d-flex">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="bi bi-box-arrow-in-right"></i> Kembali</a>
+                            <a class="nav-link desktop" href="/"><i class="bi bi-box-arrow-in-right"></i> Kembali</a>
                         </li>
                     </ul>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="d-flex">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Hai, Rifky Aryo <sup><i class="bi bi-circle-fill" style="color: green; font-size: 80%;">On</i></sup></a>
+                            <a class="nav-link" href="#">Hai, <?= $_SESSION['nama'] ?> <sup><i class="bi bi-circle-fill" style="color: green; font-size: 80%;">On</i></sup></a>
                         </li>
                     </ul>
                 </div>
@@ -50,20 +50,41 @@
         </div>
     </nav>
 
-    <!-- navbar bottom -->
-    <nav class="navbar navbar-expand navbar-expand-lg fixed-bottom mobile bg-dark border-top border-body" data-bs-theme="dark">
-        <ul class="navbar-nav nav-justified w-100">
-            <li class="nav-item">
-                <a href="/home" class="nav-link {{ $title === 'Home' ? 'active' : '' }}"><i class="bi bi-house-fill" style="font-size: 25px;"></i></a>
-            </li>
-            <li class="nav-item">
-                <a href="/saham" class="nav-link {{ $title === 'Saham' ? 'active' : '' }}{{ $title === 'Crypto' ? 'active' : '' }}{{ $title === 'Forex' ? 'active' : '' }}"><i class="bi bi-file-bar-graph-fill" style="font-size: 25px;"></i></a>
-            </li>
-            <li class="nav-item">
-                <a href="/profile" class="nav-link {{ $title === 'profile' ? 'active' : '' }}"><i class="bi bi-person-fill" style="font-size: 25px;"></i></a>
-            </li>
-        </ul>
-    </nav>
+    <?php
+    if ($type != "auth") :
+    ?>
+        <!-- navbar bottom -->
+        <nav class="navbar navbar-expand navbar-expand-lg fixed-bottom mobile bg-dark border-top border-body" data-bs-theme="dark">
+            <?php
+            if ($title === 'form' || $title === 'verif-zakat' || $title === 'table') :
+            ?>
+                <div class="text-center navbar-mobile mb-2">
+                    <div class="btn-group container-fluid" role="group" aria-label="Basic radio toggle button group">
+                        <a href="/form" class="btn btn-outline-light <?= $title === 'form' ? 'active' : '' ?>" for="btnradio1"><i class="bi bi-pencil-square"></i> Form</a>
+
+                        <a href="/verifikasi-zakat" class="btn btn-outline-light <?= $title === 'verif-zakat' ? 'active' : '' ?>" for="btnradio2"><i class="bi bi-pencil-square"></i> Verifikasi</a>
+
+                        <a href="/table" class="btn btn-outline-light <?= $title === 'table' ? 'active' : '' ?>" for="btnradio3"><i class="bi bi-file-bar-graph"></i> Data</a>
+                    </div>
+                </div>
+            <?php
+            endif;
+            ?>
+            <ul class="navbar-nav nav-justified w-100">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link <?= $title === 'dashboard' ? 'active' : '' ?>"><i class="bi bi-house-fill" style="font-size: 25px;"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/form" class="nav-link <?= $title === 'form' ? 'active' : '' ?> <?= $title === 'verif-zakat' ? 'active' : '' ?> <?= $title === 'table' ? 'active' : '' ?>"><i class="bi bi-file-bar-graph-fill" style="font-size: 25px;"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a href="/maintenance" class="nav-link {{ $title === 'maintenence' ? 'active' : '' }}"><i class="bi bi-person-fill" style="font-size: 25px;"></i></a>
+                </li>
+            </ul>
+        </nav>
+    <?php
+    endif;
+    ?>
 
     <!-- menu -->
     <div class="offcanvas offcanvas-start text-bg-dark" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
@@ -130,10 +151,6 @@
                             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                         </li> -->
                         </ul>
-                        <form class="d-flex mt-4" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-light" type="submit">Search</button>
-                        </form>
                     </div>
                 </nav>
             </div>
