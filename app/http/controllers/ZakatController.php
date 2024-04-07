@@ -30,6 +30,13 @@ class ZakatController
         echo json_encode(['success' => true, 'data' => $data]);
     }
 
+    public function getDailyZakatData()
+    {
+        $data = $this->ZakatService->getDailyZakatData();
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true, 'data' => $data]);
+    }
+
     public function add()
     {
         $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';

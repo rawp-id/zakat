@@ -1,4 +1,3 @@
-
 <!-- Dashboard -->
 <div class="container mt-4">
     <h3>Dashboard</h3>
@@ -7,7 +6,7 @@
         <div class="col-lg-9 col-md-12">
             <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 30px;">
                 <div class="card-body mt-2 mb-3">
-                    <h5 class="card-title">Grafik Charting</h5>
+                    <h5 class="card-title">Grafik Zakat</h5>
                     <hr>
                     <canvas id="myChart" width="3" height="1.5"></canvas>
                 </div>
@@ -16,16 +15,16 @@
         <div class="col-lg-3 col-md-12">
             <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 25px;">
                 <div class="card-body mt-2 mb-2">
-                    <h5 class="card-title">Grafik Charting</h5>
+                    <h5 class="card-title">Total Zakat</h5>
                     <hr>
-                    <h1>20</h1>
+                    <h1><?= $total ?> Orang</h1>
                 </div>
             </div>
             <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 25px;">
                 <div class="card-body mt-2 mb-2">
-                    <h5 class="card-title">Grafik Charting</h5>
+                    <h5 class="card-title">Total Massa</h5>
                     <hr>
-                    <h1>20</h1>
+                    <h1><?= $massa ?> Kg</h1>
                 </div>
             </div>
         </div>
@@ -42,10 +41,22 @@
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: [
+                <?php
+                foreach ($daily as $data) {
+                    echo '"' . $data['tanggal'] . '"' . ",";
+                }
+                ?>
+            ],
             datasets: [{
                 label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                data: [
+                    <?php
+                    foreach ($daily as $data) {
+                        echo $data['total'] . ",";
+                    }
+                    ?>
+                ],
                 borderWidth: 1
             }]
         },

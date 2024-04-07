@@ -135,4 +135,43 @@ class ZakatRepository
 
         return $result > 0;
     }
+    public function getDailyZakatData() {
+        $query = "SELECT DATE(tanggal) as tanggal, SUM(jumlah) as total_zakat FROM zakat GROUP BY DATE(tanggal) ORDER BY tanggal ASC";
+        
+        $result = $this->db->getDb()->query($query);
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = [
+                'tanggal' => $row['tanggal'],
+                'total' => $row['total_zakat']
+            ];
+        }
+
+        return $data;
+    }
+
+    public function getTotalZakat() {
+        $query = "SELECT SUM(jumlah) as total_zakat FROM zakat";
+
+        $result = $this->db->getDb()->query($query);
+
+        if ($row = $result->fetch_assoc()) {
+            return $row['total_zakat'];
+        } else {
+            return 0; // Mengembalikan 0 jika tidak ada data
+        }
+    }
+
+    public function getTotalZakatKg() {
+        $query = "SELECT SUM(jumlah) as total_zakat FROM zakat";
+
+        $result = $this->db->getDb()->query($query);
+
+        if ($row = $result->fetch_assoc()) {
+            return ($row['total_zakat']*2.7);
+        } else {
+            return 0; // Mengembalikan 0 jika tidak ada data
+        }
+    }
 }

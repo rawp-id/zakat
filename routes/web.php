@@ -16,6 +16,7 @@ require_once __DIR__ . '/../app/Http/Controllers/Auth/AuthController.php';
 $router = new Router();
 
 $router->addRoute('/api/zakat', 'ZakatController@index', 'GET');
+$router->addRoute('/api/zakat/daily', 'ZakatController@getDailyZakatData', 'GET');
 $router->addRoute('/api/zakat', 'ZakatController@add', 'POST');
 $router->addRoute('/api/zakat/verif', 'ZakatController@accZakat', 'POST');
 
@@ -44,6 +45,7 @@ $router->addRoute('/verifikasi', 'PageController@verifikasi', 'POST');
 $router->addRoute('/logout', 'PageController@logout', 'GET');
 $router->addRoute('/kode-masjid', 'PageController@kodeMs', 'GET');
 $router->addRoute('/kode-masjid', 'PageController@kodeMs', 'POST');
+$router->addRoute('/masjid/darul-muttaqin/zakat', 'PageController@dataZakatByMs', 'GET');
 
 $router->addRoute('/', '', 'GET', '/../views/layout/index.html');
 $router->addRoute('/maintenance', '', 'GET', '/../storage/maintenance.html');

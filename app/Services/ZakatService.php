@@ -16,10 +16,24 @@ class ZakatService
         $this->ZakatRepository = new ZakatRepository();
     }
 
-
     public function getZakat(): array
     {
         return $this->ZakatRepository->get();
+    }
+
+    public function getTotalZakatKg()
+    {
+        return $this->ZakatRepository->getTotalZakatKg();
+    }
+
+    public function getTotalZakat()
+    {
+        return $this->ZakatRepository->getTotalZakat();
+    }
+
+    public function getDailyZakatData(): array
+    {
+        return $this->ZakatRepository->getDailyZakatData();
     }
 
     public function addZakat(string $nama, $jumlah, string $alamat, ?string $rincian, ?string $keterangan, string $kode_ms): bool

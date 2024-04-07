@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ZakatRepository;
 use App\Services\MasjidService;
 use App\Services\UserService;
 use App\Utils\Api;
@@ -26,6 +27,10 @@ class PageController
             header('Location: /login');
             exit;
         }
+        $zakat = new ZakatRepository;
+        $daily = $zakat->getDailyZakatData();
+        $massa = $zakat->getTotalZakatKg();
+        $total = $zakat->getTotalZakat();
         $type = "";
         $title = "dashboard";
         $content = __DIR__ . '/../../../views/content/dashboard.php';
@@ -279,6 +284,16 @@ class PageController
         $title = "table";
         $content = __DIR__ . '/../../../views/content/table.php';
         require __DIR__ . '/../../../views/layout/main.php';
+    }
+
+    public function dataZakatByMs()
+    {
+        $type = "";
+        $apiUrl = Api::getUrl("/api/zakat");
+        $response = file_get_contents($apiUrl);
+        $data = json_decode($response, true);
+        $title = "data-zakat-ms";
+        require __DIR__ . '/../../../views/content/data-zakat.php';
     }
 
     public function table_verif()
