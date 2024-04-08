@@ -135,9 +135,10 @@ class ZakatRepository
 
         return $result > 0;
     }
-    public function getDailyZakatData() {
+    public function getDailyZakatData()
+    {
         $query = "SELECT DATE(tanggal) as tanggal, SUM(jumlah) as total_zakat FROM zakat GROUP BY DATE(tanggal) ORDER BY tanggal ASC";
-        
+
         $result = $this->db->getDb()->query($query);
 
         $data = [];
@@ -151,7 +152,9 @@ class ZakatRepository
         return $data;
     }
 
-    public function getTotalZakat() {
+
+    public function getTotal()
+    {
         $query = "SELECT SUM(jumlah) as total_zakat FROM zakat";
 
         $result = $this->db->getDb()->query($query);
@@ -162,14 +165,27 @@ class ZakatRepository
             return 0; // Mengembalikan 0 jika tidak ada data
         }
     }
-
-    public function getTotalZakatKg() {
-        $query = "SELECT SUM(jumlah) as total_zakat FROM zakat";
+    public function getTotalSah()
+    {
+        $query = "SELECT SUM(jumlah) as total_zakat FROM zakat WHERE status=1";
 
         $result = $this->db->getDb()->query($query);
 
         if ($row = $result->fetch_assoc()) {
-            return ($row['total_zakat']*2.7);
+            return $row['total_zakat'];
+        } else {
+            return 0; // Mengembalikan 0 jika tidak ada data
+        }
+    }
+
+    public function getTotalTdkSah()
+    {
+        $query = "SELECT SUM(jumlah) as total_zakat FROM zakat WHERE status=0";
+
+        $result = $this->db->getDb()->query($query);
+
+        if ($row = $result->fetch_assoc()) {
+            return $row['total_zakat'];
         } else {
             return 0; // Mengembalikan 0 jika tidak ada data
         }

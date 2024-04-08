@@ -21,14 +21,19 @@ class ZakatService
         return $this->ZakatRepository->get();
     }
 
-    public function getTotalZakatKg()
+    public function getTotal()
     {
-        return $this->ZakatRepository->getTotalZakatKg();
+        return $this->ZakatRepository->getTotal();
     }
 
-    public function getTotalZakat()
+    public function getTotalZakatSah()
     {
-        return $this->ZakatRepository->getTotalZakat();
+        return $this->ZakatRepository->getTotalSah();
+    }
+
+    public function getTotalZakatTdkSah()
+    {
+        return $this->ZakatRepository->getTotalTdkSah();
     }
 
     public function getDailyZakatData(): array

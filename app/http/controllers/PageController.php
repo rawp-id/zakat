@@ -58,8 +58,9 @@ class PageController
         }
         $zakat = new ZakatRepository;
         $daily = $zakat->getDailyZakatData();
-        $massa = $zakat->getTotalZakatKg();
-        $total = $zakat->getTotalZakat();
+        $sah = $zakat->getTotalSah();
+        $tdkSah = $zakat->getTotalTdkSah();
+        $total = $zakat->getTotal();
         $type = "";
         $title = "dashboard";
         $content = __DIR__ . '/../../../views/content/dashboard.php';

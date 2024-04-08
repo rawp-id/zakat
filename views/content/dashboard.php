@@ -8,23 +8,37 @@
                 <div class="card-body mt-2 mb-3">
                     <h5 class="card-title">Grafik Zakat</h5>
                     <hr>
-                    <canvas id="myChart" width="3" height="1.5"></canvas>
+                    <canvas id="myChart" width="3" height="2"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-12">
             <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 25px;">
                 <div class="card-body mt-2 mb-2">
-                    <h5 class="card-title">Total Zakat</h5>
+                    <h5 class="card-title">Total Data</h5>
                     <hr>
-                    <h1><?= $total ?> Orang</h1>
+                    <h1><?= $total ?></h1>
                 </div>
             </div>
             <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 25px;">
                 <div class="card-body mt-2 mb-2">
-                    <h5 class="card-title">Total Massa</h5>
+                    <h5 class="card-title">Total Zakat Sah</h5>
                     <hr>
-                    <h1><?= $massa ?> Kg</h1>
+                    <h1><?= $sah ?></h1>
+                </div>
+            </div>
+            <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 25px;">
+                <div class="card-body mt-2 mb-2">
+                    <h5 class="card-title">Total Massa Sah</h5>
+                    <hr>
+                    <h1><?= $sah * 2.5 ?> Kg</h1>
+                </div>
+            </div>
+            <div class="card text-center mt-4 shadow-white" data-bs-theme="dark" style="border-radius: 25px;">
+                <div class="card-body mt-2 mb-2">
+                    <h5 class="card-title">Total Zakat Tidak Sah</h5>
+                    <hr>
+                    <h1 class="text-danger"><?= $tdkSah ?></h1>
                 </div>
             </div>
         </div>
