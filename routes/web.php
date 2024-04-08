@@ -34,6 +34,7 @@ $router->addRoute('/dashboard', 'PageController@dashboard', 'GET');
 $router->addRoute('/form', 'PageController@form', 'GET');
 $router->addRoute('/form', 'PageController@form', 'POST');
 $router->addRoute('/table', 'PageController@table', 'GET');
+$router->addRoute('/table', 'PageController@table', 'POST');
 $router->addRoute('/verifikasi-zakat', 'PageController@table_verif', 'GET');
 $router->addRoute('/verifikasi-zakat', 'PageController@table_verif', 'POST');
 $router->addRoute('/login', 'PageController@login', 'GET');

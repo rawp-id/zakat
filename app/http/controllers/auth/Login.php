@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth;
 
-require_once __DIR__ . '/../../../Services/AuthService.php';
-require_once __DIR__ . '/../../../Utils/Response.php';
+require_once __DIR__ . '/../../../../vendor/autoload.php';
 
 use App\Services\AuthService;
 use App\Utils\Response;

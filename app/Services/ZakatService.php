@@ -53,4 +53,13 @@ class ZakatService
             throw $e;
         }
     }
+
+    public function delete($id): bool
+    {
+        try {
+            return $this->ZakatRepository->delete($id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 }

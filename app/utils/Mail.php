@@ -14,16 +14,16 @@ function sendVerificationEmail($email, $verificationCode)
     $mail = new PHPMailer(true);
 
     try {
-        //$mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $mail->isSMTP();
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->Host = 'islami.rawp.info;103.247.10.238';
         $mail->SMTPAuth = true;
-        $mail->Username = 'dffb502387dfa3';
-        $mail->Password = 'f0d0aa80ffdf9b';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 2525;
+        $mail->Username = 'noreply@islami.rawp.info';
+        $mail->Password = 'Wztmjqr66-v*';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
 
-        $mail->setFrom('noreply@example.com', 'Mailer');
+        $mail->setFrom('noreply@islami.rawp.info', 'RAWP APPS');
         $mail->addAddress($email);
 
         $mail->isHTML(true);
@@ -40,7 +40,7 @@ function sendVerificationEmail($email, $verificationCode)
     }
 }
 
-// if(sendVerificationEmail("wpipit35@gmail.com", "123")){
+// if(sendVerificationEmail("wpipit35@gmail.com", "code123")){
 //     echo "berhasil";
 // }else{
 //     echo "gagal";

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
 use App\Repositories\ZakatRepository;
 use App\Services\MasjidService;
 use App\Services\UserService;
+use App\Services\ZakatService;
 use App\Utils\Api;
 use App\Utils\Response;
-
-require_once __DIR__ . '/../../../vendor/autoload.php';
-
 
 class PageController
 {
@@ -19,11 +19,40 @@ class PageController
         ob_start();
     }
 
+    private function performCurlPostRequest($url, $data)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            curl_close($ch);
+            return false; // Or handle error as appropriate
+        }
+        curl_close($ch);
+        return $response;
+    }
+
+    private function performCurlGetRequest($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            curl_close($ch);
+            return false; // Or handle error as appropriate
+        }
+        curl_close($ch);
+        return $response;
+    }
+
+
     public function dashboard()
     {
-        if (isset($_SESSION['token'])) {
-            $token = $_SESSION['token'];
-        } else {
+        if (!isset($_SESSION['token'])) {
             header('Location: /login');
             exit;
         }
@@ -234,35 +263,81 @@ class PageController
             exit;
         }
         $type = "";
+        // $url = Api::getUrl("/api/zakat");
+        // $response = null;
+        // if (isset($_POST['submit'])) {
+        //     $data = [
+        //         'nama' => $_POST['nama'],
+        //         'jumlah' => $_POST['jumlah'],
+        //         'alamat' => $_POST['alamat'],
+        //         'rincian' => isset($_POST['rincian']) ? $_POST['rincian'] : "-",
+        //         'keterangan' => isset($_POST['keterangan']) ? $_POST['keterangan'] : "-",
+        //         'kode_ms' => $_SESSION['kode_ms'],
+        //     ];
+
+        //     $options = [
+        //         'http' => [
+        //             'header'  => "Content-Type: application/json\r\n",
+        //             'method'  => 'POST',
+        //             'content' => json_encode($data),
+        //         ],
+        //     ];
+
+        //     $context  = stream_context_create($options);
+
+        //     $response = file_get_contents($url, false, $context);
+
+        //     if ($response === FALSE) {
+        //         $error = error_get_last();
+        //         echo "HTTP request failed! Error was: " . $error['message'];
+        //         if (isset($http_response_header)) {
+        //             echo "\nResponse Header: ";
+        //             print_r($http_response_header);
+        //         }
+        //         die('Terjadi kesalahan saat mengirim data');
+        //     }
+        // }
+
         $url = Api::getUrl("/api/zakat");
         $response = null;
         if (isset($_POST['submit'])) {
+            // Menangani input `rincian` dan `keterangan` yang bisa dalam bentuk string atau array
+            $rincian = "-";
+            if (isset($_POST['rincian'])) {
+                if (is_array($_POST['rincian'])) {
+                    $rincian = json_encode($_POST['rincian']);
+                } else {
+                    $rincian = json_encode(explode(",", $_POST['rincian']));
+                }
+            }
+
+            $keterangan = "-";
+            if (isset($_POST['keterangan'])) {
+                if (is_array($_POST['keterangan'])) {
+                    $keterangan = json_encode($_POST['keterangan']);
+                } else {
+                    $keterangan = json_encode(explode(",", $_POST['keterangan']));
+                }
+            }
+
             $data = [
                 'nama' => $_POST['nama'],
                 'jumlah' => $_POST['jumlah'],
                 'alamat' => $_POST['alamat'],
-                'rincian' => isset($_POST['rincian']) ? $_POST['rincian'] : "-",
-                'keterangan' => isset($_POST['keterangan']) ? $_POST['keterangan'] : "-",
+                'rincian' => $rincian,
+                'keterangan' => $keterangan,
                 'kode_ms' => $_SESSION['kode_ms'],
             ];
 
-            $options = [
-                'http' => [
-                    'header'  => "Content-Type: application/json\r\n",
-                    'method'  => 'POST',
-                    'content' => json_encode($data),
-                ],
-            ];
-
-            $context  = stream_context_create($options);
-
-            $response = file_get_contents($url, false, $context);
-
+            $response = $this->performCurlPostRequest($url, $data);
             if ($response === FALSE) {
                 die('Terjadi kesalahan saat mengirim data');
             }
+            // echo json_encode($rincian);
+            // echo json_encode($keterangan);
         }
 
+        // echo $_SESSION['kode_ms'];
         $msg = $response ? json_decode(Response::msg(true, "Menyimpan Data")) : '';
         $title = "form";
         $content = __DIR__ . '/../../../views/content/form.php';
@@ -277,10 +352,29 @@ class PageController
             header('Location: /login');
             exit;
         }
+
+        $response = null;
+        if (isset($_POST['delete'])) {
+            $zakat = new ZakatService;
+            $result = $zakat->delete($_POST['id']);
+            if ($result) {
+                $response = json_decode(Response::msg(true, "Menghapus Data"));
+            } else {
+                $response = json_decode(Response::msg(false, "Gagal MEnghapus Data"));
+            }
+        }
+
+        $msg = $response ? $response : '';
+
         $type = "";
-        $apiUrl = Api::getUrl("/api/zakat");
-        $response = file_get_contents($apiUrl);
-        $data = json_decode($response, true);
+        $apiUrl = Api::getUrl("/api/zakat"); // Assuming this is your endpoint for fetching the table data
+        $responseData = $this->performCurlGetRequest($apiUrl);
+
+        if ($responseData === FALSE) {
+            die('Terjadi kesalahan saat mengakses data');
+        }
+
+        $data = json_decode($responseData, true);
         $title = "table";
         $content = __DIR__ . '/../../../views/content/table.php';
         require __DIR__ . '/../../../views/layout/main.php';
@@ -304,6 +398,7 @@ class PageController
             header('Location: /login');
             exit;
         }
+
         $type = "";
         $url = Api::getUrl("/api/zakat/verif");
         $response = null;
@@ -330,14 +425,37 @@ class PageController
 
             // Periksa apakah request berhasil
             if ($response === FALSE) {
+                // $error = error_get_last();
+                // echo "HTTP request failed! Error was: " . $error['message'];
+                // if (isset($http_response_header)) {
+                //     echo "\nResponse Header: ";
+                //     print_r($http_response_header);
+                // }
                 die('Terjadi kesalahan saat mengirim data');
+            } else {
+                $response = json_decode(Response::msg(true, "Menyimpan Data"));
             }
         }
 
-        $msg = $response ? json_decode(Response::msg(true, "Menyimpan Data")) : '';
-        $apiUrl = Api::getUrl("/api/zakat");
-        $respon = file_get_contents($apiUrl);
-        $data = json_decode($respon, true);
+        if (isset($_POST['delete'])) {
+            $zakat = new ZakatService;
+            $result = $zakat->delete($_POST['id']);
+            if ($result) {
+                $response = json_decode(Response::msg(true, "Menghapus Data"));
+            } else {
+                $response = json_decode(Response::msg(false, "Gagal MEnghapus Data"));
+            }
+        }
+
+        $msg = $response ? $response : '';
+        $apiUrl = Api::getUrl("/api/zakat"); // Assuming this is your endpoint for fetching the table data
+        $responseData = $this->performCurlGetRequest($apiUrl);
+
+        if ($responseData === FALSE) {
+            die('Terjadi kesalahan saat mengakses data');
+        }
+
+        $data = json_decode($responseData, true);
         $title = "verif-zakat";
         $content = __DIR__ . '/../../../views/content/verif.php';
         require __DIR__ . '/../../../views/layout/main.php';

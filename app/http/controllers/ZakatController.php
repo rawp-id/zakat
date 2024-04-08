@@ -48,16 +48,16 @@ class ZakatController
             $nama = $decoded['nama'] ?? null;
             $jumlah = $decoded['jumlah'] ?? null;
             $alamat = $decoded['alamat'] ?? null;
-            $rincian = isset($decoded['rincian'])?$decoded['rincian']:"-";
-            $keterangan = isset($decoded['keterangan'])?$decoded['keterangan']:"-";
-            $kode_ms = "dm";
+            $rincian = isset($decoded['rincian']) ? $decoded['rincian'] : "-";
+            $keterangan = isset($decoded['keterangan']) ? $decoded['keterangan'] : "-";
+            $kode_ms = $decoded['kode_ms'] ?? null;
         } else {
             $nama = $_POST['nama'] ?? null;
             $jumlah = $_POST['jumlah'] ?? null;
             $alamat = $_POST['alamat'] ?? null;
-            $rincian = isset($_POST['rincian']) ? explode(",",$_POST['rincian']) : "-";
-            $keterangan = isset($_POST['keterangan']) ? json_encode($_POST['keterangan']) : "-";
-            $kode_ms = "dm";
+            $rincian = isset($_POST['rincian']) ? $_POST['rincian'] : "-";
+            $keterangan = isset($_POST['keterangan']) ? $_POST['keterangan'] : "-";
+            $kode_ms = $_POST['kode_ms'] ?? null;
         }
 
         if ($nama && $jumlah && $alamat && $rincian && $keterangan && $kode_ms) {

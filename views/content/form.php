@@ -17,8 +17,8 @@
                     <?= $msg->message ?>
                 </div>
             <?php
-                header("Refresh:2");
-                ob_end_flush();
+                // header("Refresh:2");
+                // ob_end_flush();
             endif;
             ?>
             <div class="container">
@@ -121,7 +121,7 @@
             newInputGroup.classList.add('input-group', 'mb-3', 'inputField');
             newInputGroup.innerHTML = `
 <span class="input-group-text">@</span>
-<input type="text" class="form-control" name="rincian[]" id="keterangan[]" required placeholder="Rincian...">
+<input type="text" class="form-control" name="rincian[]" id="rincian[]" required placeholder="Rincian...">
 <button class="btn btn-light deleteButton" type="button"><i class="bi bi-trash3"></i></button>
 <div class="invalid-feedback">
     Silahkan isikan rincian, jika tidak ada rincian hapus inputannya

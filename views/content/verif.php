@@ -32,7 +32,8 @@
                                 <th scope="col">Rincian</th>
                                 <th scope="col">Keterangan</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,11 +50,19 @@
                                         <td><?= $datas['rincian'] != "-" ? implode(",", json_decode($datas['rincian'])) : "-" ?></td>
                                         <td><?= $datas['keterangan'] != "-" ? implode(",", json_decode($datas['keterangan'])) : "-" ?></td>
                                         <td class="<?= $datas['status'] === 1 ? "text-success" : "text-danger" ?>"><?= $datas['keterangan'] === "1" ? "Sah" : "Tidak Sah" ?></td>
-                                        <td><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#zakat<?= $datas['id'] ?>" style="font-size: x-large;">
+                                        <td>
+                                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#zakat<?= $datas['id'] ?>" style="font-size: x-large;">
                                                 <i class="bi bi-check2-square"></i>
-                                            </button></td>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#delete<?= $datas['id'] ?>" style="font-size: x-large;">
+                                                <i class="bi bi-trash3 text-danger"></i>
+                                            </button>
+                                        </td>
                                     </tr>
-                                    <!-- Modal -->
+
+                                    <!-- Modal verif -->
                                     <div class="modal fade" id="zakat<?= $datas['id'] ?>" data-bs-theme="dark" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -70,8 +79,35 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <form method="post">
+                                                        <h5>Cek Apakah Data Sudah Benar?</h5>
                                                         <input type="text" name="id" value="<?= $datas['id'] ?>" hidden>
                                                         <button type="submit" name="submit" class="btn btn-light round">Verifikasi</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal delete -->
+                                    <div class="modal fade" id="delete<?= $datas['id'] ?>" data-bs-theme="dark" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete Data Zakat</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Nama : <?= $datas['nama'] ?></p>
+                                                    <p>Jumlah : <?= $datas['jumlah'] ?></p>
+                                                    <p>Alamat : <?= $datas['alamat'] ?></p>
+                                                    <p>Rincian : <?= $datas['rincian'] != "-" ? implode(",", json_decode($datas['rincian'])) : "-" ?></p>
+                                                    <p>Keterangan : <?= $datas['keterangan'] != "-" ? implode(",", json_decode($datas['keterangan'])) : "-" ?></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <form method="post">
+                                                        <h5>Cek Apakah Data Sudah Benar?</h5>
+                                                        <input type="text" name="id" value="<?= $datas['id'] ?>" hidden>
+                                                        <button type="submit" name="delete" class="btn btn-danger round">Delete</button>
                                                     </form>
                                                 </div>
                                             </div>

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-require_once __DIR__ . '/../../../Services/AuthService.php';
-require_once __DIR__ . '/../../../Utils/Response.php';
-require_once __DIR__ . '/../../../Utils/Mail.php ';
-require_once __DIR__ . '/../../../Services/UserService.php';
+require_once __DIR__ . '/../../../../vendor/autoload.php';
+require_once __DIR__ . '/../../../Utils/Mail.php';
 
 use App\Services\AuthService;
 use App\Services\UserService;
