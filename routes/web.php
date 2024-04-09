@@ -27,7 +27,7 @@ $router->addRoute('/api/callback-google', 'AuthController@handleGoogleCallback',
 $router->addRoute('/api/logout-google', 'AuthController@logout', 'GET');
 $router->addRoute('/api/verifikasi', 'AuthController@verifikasi', 'POST');
 
-$router->addRoute('/api/user', 'UserController@index', 'GET');
+// $router->addRoute('/api/user', 'UserController@index', 'GET');
 $router->addRoute('/api/user/kode', 'UserController@setKode', 'POST');
 
 $router->addRoute('/dashboard', 'PageController@dashboard', 'GET');

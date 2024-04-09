@@ -38,7 +38,7 @@
                 <div class="card-body mt-2 mb-2">
                     <h5 class="card-title">Total Zakat Tidak Sah</h5>
                     <hr>
-                    <h1 class="text-danger"><?= $tdkSah ?></h1>
+                    <h1 class="text-danger"><?= $tdkSah != null ? $tdkSah : 0 ?></h1>
                 </div>
             </div>
         </div>
