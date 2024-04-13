@@ -16,14 +16,14 @@ function sendVerificationEmail($email, $verificationCode)
     try {
         // $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $mail->isSMTP();
-        $mail->Host = 'islami.rawp.info;103.247.10.238';
+        $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
-        $mail->Username = 'noreply@islami.rawp.info';
-        $mail->Password = 'Wztmjqr66-v*';
+        $mail->Username = 'dffb502387dfa3';
+        $mail->Password = 'f0d0aa80ffdf9b';
         $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+        $mail->Port = 2525;
 
-        $mail->setFrom('noreply@islami.rawp.info', 'RAWP APPS');
+        $mail->setFrom('noreply@info.com', 'RAWP APPS');
         $mail->addAddress($email);
 
         $mail->isHTML(true);
